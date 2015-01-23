@@ -2,4 +2,4 @@
 Spring 2015 EE2403 lab project
 
 
-Entry/exit detection and reporting device(s)
+Entry/exit detection and reporting device(s) using PIR and Wireless.
