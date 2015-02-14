@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <p24exxxx.h>
+#include "inc/Comms.h"
 
 /*
  * Words of Power (Configuration Words)
