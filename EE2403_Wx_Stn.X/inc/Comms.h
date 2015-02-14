@@ -24,7 +24,6 @@ extern "C" {
 
     //<editor-fold defaultstate="collapsed" desc="UART Configuration">
     
-
 #define __U1BAUD_ 9600L //<--- Desired Baud rate UART1 CHANGE THIS
 #define __BAUDUART1_ ((__FTCY_/(16*__U1BAUD_))-1)
 
@@ -47,7 +46,6 @@ extern void UART3_Config(void);
 
 #endif
 
-
 #ifdef _U4RXIF
 #define __U4BAUD_ 2400L //Desired baud rate UART3 CHANGE THIS
 #define __BAUDUART4_ ((__FTCY_/(16*__U4BAUD_))-1)
@@ -55,10 +53,6 @@ extern void UART3_Config(void);
 extern void UART3_Config(void);
 
 #endif
-
-
-
-
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="SPI Configuration">

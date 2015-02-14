@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
 inline void Ludacris_Speed_GO(void)
 {
     // Configure PLL prescaler, PLL postscaler, PLL divisor
-PLLFBD=63; // M=65
+PLLFBD=74; // M=76
 CLKDIVbits.PLLPOST=0; // N2=2
 CLKDIVbits.PLLPRE=1; // N1=3
 // Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
