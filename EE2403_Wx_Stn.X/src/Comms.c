@@ -1,6 +1,6 @@
 #include "../inc/Comms.h"
 
-
+//<editor-fold defaultstate="collapsed" desc="UART Configuration">
 void UART1_Config(void){
 
     OpenUART1((
@@ -148,3 +148,12 @@ void UART4_Config(void){
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
 }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="SPI Configuration">
+
+///</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="I2C Configuration">
+
+//</editor-fold>
