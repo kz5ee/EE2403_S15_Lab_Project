@@ -38,6 +38,7 @@ void UART1_Config(void){
             );
 }
 
+#ifdef _U2RXIF
 void UART2_Config(void){
 
     OpenUART2((
@@ -74,7 +75,9 @@ void UART2_Config(void){
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
 }
+#endif
 
+#ifdef _U3RXIF
 void UART3_Config(void){
 
     OpenUART3((
@@ -111,7 +114,9 @@ void UART3_Config(void){
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
 }
+#endif
 
+#ifdef _U4RXIF
 void UART4_Config(void){
 
     OpenUART4((
@@ -148,6 +153,7 @@ void UART4_Config(void){
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
 }
+#endif
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="SPI Configuration">

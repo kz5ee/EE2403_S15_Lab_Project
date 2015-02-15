@@ -1,7 +1,9 @@
 
 
 #include <stdio.h>
+#include <pps.h>
 #include "../inc/timers.h"
+#include "../inc/io_conf.h"
 
 
 //<editor-fold defaultstate="collapsed" desc="Timer Configuration">
@@ -213,4 +215,43 @@ inline void Timer9_Setup(void)
 
 #endif
 
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="I/O Configuration">
+
+    void ANSEL_Config(void)
+    {
+        ANSELA = 0x0000;
+        ANSELB = 0x0000;
+        ANSELC = 0x0000;
+        ANSELD = 0x0000;
+        ANSELE = 0x0000;
+        ANSELG = 0x0000;
+    }
+
+    void TRIS_Config(void)
+    {
+        TRISA = 0x0000;
+        TRISB = 0x0000;
+        TRISC = 0x0000;
+        TRISD = 0x0000;
+        TRISE = 0x0000;
+        TRISF = 0x0000;
+        TRISG = 0x0000;
+    }
+
+    void PPS_Config(void)
+    {
+        //Set up RX for UARTs
+        PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RPI49);
+        PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RPI50);
+        PPSInput(IN_FN_PPS_U3RX, IN_PIN_PPS_RPI51);
+        PPSInput(IN_FN_PPS_U4RX, IN_PIN_PPS_RPI52);
+
+        //Set up TX for UARTs
+        PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP84);
+        PPSOutput(OUT_FN_PPS_U2TX, OUT_PIN_PPS_RP82);
+        PPSOutput(OUT_FN_PPS_U3TX, OUT_PIN_PPS_RP80);
+        PPSOutput(OUT_FN_PPS_U4TX, OUT_PIN_PPS_RP71);
+    }
 //</editor-fold>
