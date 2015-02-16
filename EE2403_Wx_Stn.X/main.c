@@ -10,6 +10,7 @@
 #include <p24exxxx.h>
 #include "inc/Comms.h"
 #include "inc/timers.h"
+#include "inc/buffers.h"
 
 /*
  * Words of Power (Configuration Words)

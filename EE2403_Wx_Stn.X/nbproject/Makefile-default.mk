@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c src/Comms.c src/chip_setup.c src/isr.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c src/Comms.c src/chip_setup.c src/isr.c src/buffers.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/src/Comms.o ${OBJECTDIR}/src/chip_setup.o ${OBJECTDIR}/src/isr.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/src/Comms.o.d ${OBJECTDIR}/src/chip_setup.o.d ${OBJECTDIR}/src/isr.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/src/Comms.o ${OBJECTDIR}/src/chip_setup.o ${OBJECTDIR}/src/isr.o ${OBJECTDIR}/src/buffers.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/src/Comms.o.d ${OBJECTDIR}/src/chip_setup.o.d ${OBJECTDIR}/src/isr.o.d ${OBJECTDIR}/src/buffers.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/src/Comms.o ${OBJECTDIR}/src/chip_setup.o ${OBJECTDIR}/src/isr.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/src/Comms.o ${OBJECTDIR}/src/chip_setup.o ${OBJECTDIR}/src/isr.o ${OBJECTDIR}/src/buffers.o
 
 # Source Files
-SOURCEFILES=main.c src/Comms.c src/chip_setup.c src/isr.c
+SOURCEFILES=main.c src/Comms.c src/chip_setup.c src/isr.c src/buffers.c
 
 
 CFLAGS=
@@ -110,6 +110,13 @@ ${OBJECTDIR}/src/isr.o: src/isr.c  nbproject/Makefile-${CND_CONF}.mk
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/isr.c  -o ${OBJECTDIR}/src/isr.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/isr.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/src/isr.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
+${OBJECTDIR}/src/buffers.o: src/buffers.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/buffers.o.d 
+	@${RM} ${OBJECTDIR}/src/buffers.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/buffers.c  -o ${OBJECTDIR}/src/buffers.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/buffers.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1  -mno-eds-warn  -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/src/buffers.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -138,6 +145,13 @@ ${OBJECTDIR}/src/isr.o: src/isr.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/src/isr.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  src/isr.c  -o ${OBJECTDIR}/src/isr.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/isr.o.d"      -mno-eds-warn  -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
 	@${FIXDEPS} "${OBJECTDIR}/src/isr.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
+	
+${OBJECTDIR}/src/buffers.o: src/buffers.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/src" 
+	@${RM} ${OBJECTDIR}/src/buffers.o.d 
+	@${RM} ${OBJECTDIR}/src/buffers.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  src/buffers.c  -o ${OBJECTDIR}/src/buffers.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/src/buffers.o.d"      -mno-eds-warn  -g -omf=elf -O0 -msmart-io=1 -Wall -msfr-warn=off
+	@${FIXDEPS} "${OBJECTDIR}/src/buffers.o.d" $(SILENT)  -rsi ${MP_CC_DIR}../ 
 	
 endif
 

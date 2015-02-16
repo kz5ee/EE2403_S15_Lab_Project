@@ -7,6 +7,7 @@
       <itemPath>inc/Comms.h</itemPath>
       <itemPath>inc/timers.h</itemPath>
       <itemPath>inc/io_conf.h</itemPath>
+      <itemPath>inc/buffers.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -19,6 +20,7 @@
       <itemPath>src/Comms.c</itemPath>
       <itemPath>src/chip_setup.c</itemPath>
       <itemPath>src/isr.c</itemPath>
+      <itemPath>src/buffers.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
