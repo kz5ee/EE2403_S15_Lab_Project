@@ -7,7 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <p24exxxx.h>
+#include <p24Exxxx.h>
 #include "inc/Comms.h"
 #include "inc/timers.h"
 #include "inc/buffers.h"
