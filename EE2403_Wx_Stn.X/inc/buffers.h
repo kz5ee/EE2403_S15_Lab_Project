@@ -12,7 +12,9 @@
 extern "C" {
 #endif
 
+#include <Generic.h>
 #define MAX_BUFFER      64
+
 
 typedef enum
 {
