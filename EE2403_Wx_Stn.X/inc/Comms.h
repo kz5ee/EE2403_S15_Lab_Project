@@ -57,7 +57,7 @@ extern void UART3_Config(void);
 
     //<editor-fold defaultstate="collapsed" desc="SPI Configuration">
 
-
+extern void SPI1_Config(void);
 
     //</editor-fold>
 
