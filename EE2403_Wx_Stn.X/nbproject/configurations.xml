@@ -8,6 +8,7 @@
       <itemPath>inc/timers.h</itemPath>
       <itemPath>inc/io_conf.h</itemPath>
       <itemPath>inc/buffers.h</itemPath>
+      <itemPath>inc/types.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

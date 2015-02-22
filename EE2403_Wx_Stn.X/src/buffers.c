@@ -7,104 +7,74 @@
 #include <string.h>
 #include "../inc/buffers.h"
 
-char *head;
-char *tail;
-char buffer[MAX_BUFFER];
 
-BuffStatus AddtoBuffer(char character)
+UINT8 UartRingBuffer[MAXRINGBUFSIZE];//Max length of NEMA sentence is 80 and the max STX is 154
+UINT16 HIndex = 0,TIndex = 0;//Internal Indexes
+
+/// @fn void RngAdd(U8 NewData)
+/// @author Jonathan Streeter
+/// @date 1/20/2014
+/// @brief Adds to the Buffer and moves the Head and Tail
+/// @details Adds a new data byte from the UART interrupt to the Ring Buffer and
+///	moves the Head and Tail buffer. This is the ONLY function that
+///	moves the Head Pointer
+///
+/// @param NewData Data to be inserted into the RngBuffer
+/// @return void
+////////////////////////////////////////////////////////////////////////////////
+void RngAdd(UINT8 NewData)
 {
-    BuffStatus rv = Good;  //rv = return value
-    char *tailfromhead;
-    tailfromhead = tail;
+UartRingBuffer[HIndex] = NewData;//Shove data in
+HIndex =(HIndex + 1) % MAXRINGBUFSIZE;//Advance and check overflow
 
-    if (++tailfromhead > LAST_POINTER)
-    {
-        tailfromhead = FIRST_POINTER;
-    }
-    if (++tailfromhead == head)
-    {
-        rv = BufferFull;
-        return 1;
-    }
+if(HIndex == TIndex)//Check if they have looped back on eachother
+TIndex =(TIndex + 1) % MAXRINGBUFSIZE;//If so andvance the TP
 
-    *tail = character;
-
-    if (++tail > LAST_POINTER)
-    {
-        tail = FIRST_POINTER;
-    }
-
-    return 0;
+return;
 }
 
-char ReadfromBuffer(void)
+/// @fn S16 RngGet(U8 *LocalTailIndex)
+/// @author Jonathan Streeter
+/// @date 1/21/2014
+/// @brief Adds to the Buffer and moves the Head and Tail
+/// @details Get the next char from the ring buffer using the Local Tail Index that you pass it.
+///	If the return is > 0xFF then the Tail is at the Head. The Tail index is moved to
+///	the next char
+/// @param LocalTailIndex
+/// @return char that it pulled. EOF if the Head matches the tail
+////////////////////////////////////////////////////////////////////////////////
+S16 RngGet(UINT16 *LocalTailIndex)
 {
-    char rv;  //rv = Return Value
+S16 RTV = EOF;
 
-    if (head == tail)
-    {
-        return '\0';
-    }
-
-    rv = *head;
-
-    if (++head > LAST_POINTER)
-    {
-        head = FIRST_POINTER;
-    }
-
-    return rv;
+if(*LocalTailIndex != HIndex)//Not Matching
+{
+RTV = UartRingBuffer[ *LocalTailIndex ];//Grab data
+*LocalTailIndex =(*LocalTailIndex + 1) % MAXRINGBUFSIZE;//increment and check for overflow
 }
 
-int FreeSpace(void)
-{
-    if(tail == head)
-    {
-        return (MAX_BUFFER - 1);
-    }
-
-    if(tail > head)
-    {
-        return ((MAX_BUFFER - 1) - (tail - head));
-    }
-
-
-    return ((MAX_BUFFER - 1) - (tail - FIRST_POINTER) - (LAST_POINTER - head));
+return(RTV);//Will be 0xFFFF if no new char was aquired
 }
 
-void ClearBuffer(void)
+/// @fn U8 RngDataUsed(U8* LocalTailIndexPeek)
+/// @author Jonathan Streeter
+/// @date 1/21/2014
+/// @brief Using local TailIndex return howmany bytes ahead the Head is.
+/// @details Using local TailIndex return howmany bytes ahead the Head is.
+///
+/// @param LocalTailIndexPeek The index that is passed in
+/// @return Number of bytes left in Buffer
+////////////////////////////////////////////////////////////////////////////////
+
+UINT16 RngDataUsed(UINT16* LocalTailIndexPeek)
 {
-    tail = head;
-    return;
-}
-//void ShowBuffer(void)
-//{
-//    //@showbuffer
-//    int i;
-//
-//    printf("Current buffer:  \n");
-//    for (i=0; i < MAX_BUFFER; i++)
-//    {
-//        printf("%c: ", buffer[i]);
-//    }
-//    printf("\n:");
-//
-//    return;
-//}
+UINT16 DataLeft = 0;
+UINT16 Temp = HIndex;
 
-void InitBuffer(void)
-{
-    int i;
+if(Temp < *LocalTailIndexPeek)
+Temp += MAXRINGBUFSIZE;
 
-//    for(i = 0; i < MAX_BUFFER; i++)
-//    {
-//        buffer[i] = '1';
-//    }
+DataLeft = (UINT16) (Temp - *LocalTailIndexPeek);
 
-    memset(buffer, '\0', sizeof(buffer));
-
-    head = &buffer[0];
-    tail = &buffer[0];
-
-    return;
+return(DataLeft);
 }
