@@ -166,7 +166,7 @@ void UART4_Config(void){
 
         SPI1CON1bits.DISSCK = 0;	// SPIx clock on SCKx pin is enabled
         SPI1CON1bits.DISSDO = 0;	// SDOx pin is controlled by the module
-        SPI1CON1bits.MODE16 = 1;	// Communication is word-wide (16 bits)
+        SPI1CON1bits.MODE16 = 0;	// Communication is byte-wide (8 bits)
         SPI1CON1bits.SMP = 0;           // Input data is sampled at the middle of data output time
         SPI1CON1bits.CKE =	1;	// Serial output data changes on transition from active clock state to Idle clock state
         SPI1CON1bits.SSEN = 0;          // SSx pin is not used by the module; pin is controlled by port function
