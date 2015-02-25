@@ -9,6 +9,7 @@
       <itemPath>inc/io_conf.h</itemPath>
       <itemPath>inc/buffers.h</itemPath>
       <itemPath>inc/types.h</itemPath>
+      <itemPath>inc/globals.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -22,6 +23,7 @@
       <itemPath>src/chip_setup.c</itemPath>
       <itemPath>src/isr.c</itemPath>
       <itemPath>src/buffers.c</itemPath>
+      <itemPath>src/globals.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

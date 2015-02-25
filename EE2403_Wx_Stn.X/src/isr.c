@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <p24Exxxx.h>
+#include "../inc/globals.h"
 
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
@@ -92,7 +93,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U2RXInterrupt(void)
 {
     _U2RXIF = 0;
+    char recieved;
 
+    U2RXBUFF = 1;
 
     return;
 }
@@ -102,6 +105,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U3RXInterrupt(void)
 {
     _U3RXIF = 0;
+    char recieved;
+
+    U3RXBUFF = 1;
 
 
     return;
@@ -112,6 +118,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U4RXInterrupt(void)
 {
     _U4RXIF = 0;
+    char recieved;
+
+    U4RXBUFF = 1;
 
 
     return;

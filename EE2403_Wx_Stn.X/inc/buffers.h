@@ -15,7 +15,9 @@ extern "C" {
 #include <Generic.h>
 #include "../inc/types.h"
 
-#define MAXRINGBUFSIZE      64
+#define TPBUFMAXSIZE            64
+#define GPSBUFMAXSIZE           80
+#define MAXRINGBUFSIZE          32
 
 
 typedef enum

@@ -6,10 +6,14 @@
 #include <ctype.h>
 #include <string.h>
 #include "../inc/buffers.h"
+#include "../inc/globals.h"
 
 
-UINT8 UartRingBuffer[MAXRINGBUFSIZE];//Max length of NEMA sentence is 80 and the max STX is 154
-UINT16 HIndex = 0,TIndex = 0;//Internal Indexes
+UINT8 Uart2RingBuffer[TPBUFMAXSIZE];
+UINT8 Uart3RingBuffer[GPSBUFMAXSIZE];//Max length of NEMA sentence is 80 and the max STX is 154
+UINT8 Uart4RingBuffer[MAXRINGBUFSIZE];
+
+UINT16 U2HIndex = 0,U2TIndex = 0,U3HIndex = 0,U3TIndex = 0,U4HIndex = 0,U4TIndex = 0;//Internal Indexes
 
 /// @fn void RngAdd(U8 NewData)
 /// @author Jonathan Streeter
@@ -24,11 +28,27 @@ UINT16 HIndex = 0,TIndex = 0;//Internal Indexes
 ////////////////////////////////////////////////////////////////////////////////
 void RngAdd(UINT8 NewData)
 {
-UartRingBuffer[HIndex] = NewData;//Shove data in
-HIndex =(HIndex + 1) % MAXRINGBUFSIZE;//Advance and check overflow
-
-if(HIndex == TIndex)//Check if they have looped back on eachother
-TIndex =(TIndex + 1) % MAXRINGBUFSIZE;//If so andvance the TP
+    if(U2RXBUFF == 1)
+    {
+        Uart2RingBuffer[U2HIndex] = NewData;//Shove data in
+        U2HIndex =(U2HIndex + 1) % TPBUFMAXSIZE;//Advance and check overflow
+        if(U2HIndex == U2TIndex)//Check if they have looped back on eachother
+          U2TIndex =(U2TIndex + 1) % MAXRINGBUFSIZE;//If so andvance the TP
+    }
+    if(U3RXBUFF == 1)
+    {
+        Uart3RingBuffer[U3HIndex] = NewData;//Shove data in
+        U3HIndex =(U3HIndex + 1) % TPBUFMAXSIZE;//Advance and check overflow
+        if(U3HIndex == U3TIndex)//Check if they have looped back on eachother
+          U3TIndex =(U3TIndex + 1) % MAXRINGBUFSIZE;//If so andvance the TP
+    }
+    if(U4RXBUFF == 1)
+    {
+        Uart4RingBuffer[U4HIndex] = NewData;//Shove data in
+        U4HIndex =(U4HIndex + 1) % TPBUFMAXSIZE;//Advance and check overflow
+        if(U4HIndex == U4TIndex)//Check if they have looped back on eachother
+          U4TIndex =(U4TIndex + 1) % MAXRINGBUFSIZE;//If so andvance the TP
+    }
 
 return;
 }
@@ -43,18 +63,18 @@ return;
 /// @param LocalTailIndex
 /// @return char that it pulled. EOF if the Head matches the tail
 ////////////////////////////////////////////////////////////////////////////////
-S16 RngGet(UINT16 *LocalTailIndex)
-{
-S16 RTV = EOF;
-
-if(*LocalTailIndex != HIndex)//Not Matching
-{
-RTV = UartRingBuffer[ *LocalTailIndex ];//Grab data
-*LocalTailIndex =(*LocalTailIndex + 1) % MAXRINGBUFSIZE;//increment and check for overflow
-}
-
-return(RTV);//Will be 0xFFFF if no new char was aquired
-}
+//S16 RngGet(UINT16 *LocalTailIndex)
+//{
+//S16 RTV = EOF;
+//
+//    if(*LocalTailIndex != HIndex)//Not Matching
+//    {
+//        RTV = UartRingBuffer[ *LocalTailIndex ];//Grab data
+//        *LocalTailIndex =(*LocalTailIndex + 1) % MAXRINGBUFSIZE;//increment and check for overflow
+//    }
+//
+//    return(RTV);//Will be 0xFFFF if no new char was aquired
+//}
 
 /// @fn U8 RngDataUsed(U8* LocalTailIndexPeek)
 /// @author Jonathan Streeter
@@ -66,15 +86,15 @@ return(RTV);//Will be 0xFFFF if no new char was aquired
 /// @return Number of bytes left in Buffer
 ////////////////////////////////////////////////////////////////////////////////
 
-UINT16 RngDataUsed(UINT16* LocalTailIndexPeek)
-{
-UINT16 DataLeft = 0;
-UINT16 Temp = HIndex;
-
-if(Temp < *LocalTailIndexPeek)
-Temp += MAXRINGBUFSIZE;
-
-DataLeft = (UINT16) (Temp - *LocalTailIndexPeek);
-
-return(DataLeft);
-}
+//UINT16 RngDataUsed(UINT16* LocalTailIndexPeek)
+//{
+//    UINT16 DataLeft = 0;
+//    UINT16 Temp = HIndex;
+//
+//    if(Temp < *LocalTailIndexPeek)
+//    Temp += MAXRINGBUFSIZE;
+//
+//    DataLeft = (UINT16) (Temp - *LocalTailIndexPeek);
+//
+//    return(DataLeft);
+//}
