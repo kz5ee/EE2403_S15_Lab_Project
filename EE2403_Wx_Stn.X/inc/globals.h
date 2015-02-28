@@ -28,8 +28,12 @@ extern "C" {
 
     extern void InitGlobals(void);
 
+    typedef enum{
+        ENABLED = 1,
+                DISABLED =0
+    }_UISTATE;
 
-
+    extern _UISTATE UI;
     
 
 

@@ -8,9 +8,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <p24Exxxx.h>
+#include "inc/globals.h"
 #include "inc/Comms.h"
 #include "inc/timers.h"
 #include "inc/buffers.h"
+#include "inc/ui.h"
 
 /*
  * Words of Power (Configuration Words)
@@ -25,12 +27,28 @@ _FPOR( FPWRT_PWR128 & BOREN_ON)
 _FICD( ICS_PGD1 & JTAGEN_OFF)
 _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
+_UISTATE UI = DISABLED;
 
 int main(int argc, char** argv) {
     void Ludacris_Speed_GO(void); //Function to set FOSC=140MHz
     Ludacris_Speed_GO();
 
+    while(1)
+    {
+        switch (UI)
+        {
+            case (ENABLED):
+                MainScreen();
+                break;
+            case (DISABLED):
+                break;
+            default:
+                Nop();
+        }
 
+
+
+    }
 
 
 
