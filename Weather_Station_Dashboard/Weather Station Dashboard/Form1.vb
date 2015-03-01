@@ -6,8 +6,4 @@
         End If
     End Sub
 
-    Private Sub tmrKeyStroke_Tick(sender As Object, e As EventArgs) Handles tmrKeyStroke.Tick
-
-    End Sub
-
 End Class

@@ -23,12 +23,13 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.tmrKeyStroke = New System.Windows.Forms.Timer(Me.components)
+        Me.tmrUpdateData = New System.Windows.Forms.Timer(Me.components)
         Me.SuspendLayout()
         '
-        'tmrKeyStroke
+        'tmrUpdateData
         '
-        Me.tmrKeyStroke.Enabled = True
+        Me.tmrUpdateData.Enabled = True
+        Me.tmrUpdateData.Interval = 1000
         '
         'Form1
         '
@@ -41,6 +42,6 @@ Partial Class Form1
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents tmrKeyStroke As System.Windows.Forms.Timer
+    Friend WithEvents tmrUpdateData As System.Windows.Forms.Timer
 
 End Class
