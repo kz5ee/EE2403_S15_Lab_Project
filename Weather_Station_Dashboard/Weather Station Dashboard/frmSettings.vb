@@ -7,6 +7,16 @@
             radCelsius.Checked = True
         End If
 
+        If My.Settings.Temp = "mph" Then                        'Load saved speed unit setting
+            radMPH.Checked = True
+        End If
+        If My.Settings.Temp = "kph" Then
+            radKPH.Checked = True
+        End If
+        If My.Settings.Speed = "kt" Then
+            radKnot.Checked = True
+        End If
+
         cboPressure.SelectedItem = My.Settings.Press            'Load saved pressure unit setting
 
         txtUpdateInterval.Text = My.Settings.Period.ToString    'Load saved update interval setting
@@ -25,10 +35,22 @@
                 My.Settings.Temp = "°C"
             End If
 
+            If radMPH.Checked = True Then                               'Save speed units setting
+                My.Settings.Temp = "mph"
+            End If
+            If radKPH.Checked = True Then
+                My.Settings.Temp = "kph"
+            End If
+            If radKnot.Checked = True Then
+                My.Settings.Speed = "kt"
+            End If
+
             My.Settings.Press = cboPressure.SelectedItem.ToString       'Save pressure units setting
 
             My.Settings.Period = CInt(txtUpdateInterval.Text)           'Save update interval setting
             My.Settings.TUnits = cboTimeUnits.SelectedItem.ToString     'Save time units setting
+
+
 
             Me.Close()
             If result = Windows.Forms.DialogResult.No Then

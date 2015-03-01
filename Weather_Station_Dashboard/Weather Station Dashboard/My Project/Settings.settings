@@ -14,5 +14,8 @@
     <Setting Name="TUnits" Type="System.String" Scope="User">
       <Value Profile="(Default)">ms</Value>
     </Setting>
+    <Setting Name="Speed" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MPH</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

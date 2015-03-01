@@ -101,6 +101,18 @@ Namespace My
                 Me("TUnits") = value
             End Set
         End Property
+
+        <Global.System.Configuration.UserScopedSettingAttribute(), _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+         Global.System.Configuration.DefaultSettingValueAttribute("MPH")> _
+        Public Property Speed() As String
+            Get
+                Return CType(Me("Speed"), String)
+            End Get
+            Set(value As String)
+                Me("Speed") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
