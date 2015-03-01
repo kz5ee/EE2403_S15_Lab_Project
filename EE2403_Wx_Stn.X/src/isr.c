@@ -88,13 +88,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     char received;
     received = U1RXREG;
 
-    if((received == 0x1b) && (!SHOWUI))
+    if((received == 0x1b) && (UI == DISABLED))
     {
         SHOWUI = 1;  //Turn on the user interface.
-    }
-    if((received == 0x1b) &&(SHOWUI))
-    {
-        SHOWUI = 0;  //turn off user interface.
     }
     
 
