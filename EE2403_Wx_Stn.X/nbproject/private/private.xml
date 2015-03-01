@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/main.c</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/src/isr.c</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/src/globals.c</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/inc/globals.h</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/inc/ui.h</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/src/Comms.c</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/src/ui.c</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/src/chip_setup.c</file>
-        <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/inc/Comms.h</file>
-    </open-files>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Mike/Documents/Checkout/EE2403_S15_Lab_Project/EE2403_Wx_Stn.X/inc/globals.h</file>
