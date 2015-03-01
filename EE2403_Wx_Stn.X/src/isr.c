@@ -82,21 +82,17 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="UART RX Interrupts">
-    void __attribute__((interrupt,auto_psv)) _ISR _U1RXInterrupt(void)
-{
-    _U1RXIF = 0;
-    char received;
-    received = U1RXREG;
-
-    if((received == 0x1b) && (UI == DISABLED))
-    {
-        SHOWUI = 1;  //Turn on the user interface.
-    }
-    
-
-
-    return;
-}
+//    void __attribute__((interrupt,auto_psv)) _ISR _U1RXInterrupt(void)
+//{
+//    _U1RXIF = 0;
+//    char received;
+//    received = U1RXREG;
+//
+//
+//
+//
+//    return;
+//}
 #ifdef _U2RXIF
     void __attribute__((interrupt,auto_psv)) _ISR _U2RXInterrupt(void)
 {
@@ -123,7 +119,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U4RXInterrupt(void)
 {
     _U4RXIF = 0;
-    char received;
+    //char received;
 
 
     return;

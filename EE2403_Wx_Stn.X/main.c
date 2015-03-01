@@ -27,7 +27,7 @@ _FPOR( FPWRT_PWR128 & BOREN_ON)
 _FICD( ICS_PGD1 & JTAGEN_OFF)
 _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
-_UISTATE UI = DISABLED;
+_RunState RUNSTATE = RUN;
 
 int main(int argc, char** argv) {
     void Ludacris_Speed_GO(void); //Function to set FOSC=140MHz
@@ -35,15 +35,21 @@ int main(int argc, char** argv) {
 
     while(1)
     {
-        switch (UI)
+        switch (RUNSTATE)
         {
-            case (ENABLED):
+            case (UI):
                 MainScreen();
                 break;
-            case (DISABLED):
+            case (ERROR):
+                break;
+            case(RUN):
+
+                break;
+            case(CALIBRATE):
+                CalibrateScreen();
                 break;
             default:
-                Nop();
+                RUNSTATE = CALIBRATE;
         }
 
 

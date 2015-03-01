@@ -14,3 +14,9 @@ void MainScreen(void)
 
     return;
 }
+
+void CalibrateScreen(void)
+{
+
+    return;
+}

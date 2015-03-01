@@ -29,13 +29,15 @@ extern "C" {
     extern void InitGlobals(void);
 
     typedef enum{
-        ENABLED = 1,
-                DISABLED =0
-    }_UISTATE;
+        UI,
+                RUN,
+                ERROR,
+                CALIBRATE
+    }_RunState;
 
-    extern _UISTATE UI;
+    extern _RunState RUNSTATE;
     
-
+    extern int mpgets(char[]); //Grab data from UART1
 
 
 #ifdef	__cplusplus

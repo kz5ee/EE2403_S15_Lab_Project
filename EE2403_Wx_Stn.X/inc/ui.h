@@ -18,6 +18,8 @@ extern "C" {
     extern char selection; //Holds the selection picked by the user.
 
     extern void MainScreen(void);
+    extern void CalibrateScreen(void);
+
 
 
 #ifdef	__cplusplus
