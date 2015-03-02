@@ -35,6 +35,13 @@ Partial Class frmMain
         Me.Label9 = New System.Windows.Forms.Label()
         Me.lblMaidenhead = New System.Windows.Forms.Label()
         Me.lblGPSLon = New System.Windows.Forms.Label()
+        Me.cboSerialPorts = New System.Windows.Forms.ComboBox()
+        Me.cboBaudRate = New System.Windows.Forms.ComboBox()
+        Me.lblSerialPorts = New System.Windows.Forms.Label()
+        Me.lblBaudRate = New System.Windows.Forms.Label()
+        Me.btnOpenPort = New System.Windows.Forms.Button()
+        Me.tmrGetSerialPorts = New System.Windows.Forms.Timer(Me.components)
+        Me.btnClosePort = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'tmrUpdateData
@@ -152,11 +159,75 @@ Partial Class frmMain
         Me.lblGPSLon.TabIndex = 10
         Me.lblGPSLon.Text = "97° 6.813' W"
         '
+        'cboSerialPorts
+        '
+        Me.cboSerialPorts.FormattingEnabled = True
+        Me.cboSerialPorts.Location = New System.Drawing.Point(499, 700)
+        Me.cboSerialPorts.Name = "cboSerialPorts"
+        Me.cboSerialPorts.Size = New System.Drawing.Size(121, 21)
+        Me.cboSerialPorts.TabIndex = 11
+        '
+        'cboBaudRate
+        '
+        Me.cboBaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboBaudRate.FormattingEnabled = True
+        Me.cboBaudRate.Items.AddRange(New Object() {"2400", "4800", "9600", "19200", "38400", "57600", "115200"})
+        Me.cboBaudRate.Location = New System.Drawing.Point(626, 700)
+        Me.cboBaudRate.Name = "cboBaudRate"
+        Me.cboBaudRate.Size = New System.Drawing.Size(121, 21)
+        Me.cboBaudRate.TabIndex = 12
+        '
+        'lblSerialPorts
+        '
+        Me.lblSerialPorts.AutoSize = True
+        Me.lblSerialPorts.Location = New System.Drawing.Point(499, 681)
+        Me.lblSerialPorts.Name = "lblSerialPorts"
+        Me.lblSerialPorts.Size = New System.Drawing.Size(26, 13)
+        Me.lblSerialPorts.TabIndex = 13
+        Me.lblSerialPorts.Text = "Port"
+        '
+        'lblBaudRate
+        '
+        Me.lblBaudRate.AutoSize = True
+        Me.lblBaudRate.Location = New System.Drawing.Point(626, 681)
+        Me.lblBaudRate.Name = "lblBaudRate"
+        Me.lblBaudRate.Size = New System.Drawing.Size(32, 13)
+        Me.lblBaudRate.TabIndex = 14
+        Me.lblBaudRate.Text = "Baud"
+        '
+        'btnOpenPort
+        '
+        Me.btnOpenPort.Location = New System.Drawing.Point(754, 697)
+        Me.btnOpenPort.Name = "btnOpenPort"
+        Me.btnOpenPort.Size = New System.Drawing.Size(42, 23)
+        Me.btnOpenPort.TabIndex = 15
+        Me.btnOpenPort.Text = "Open"
+        Me.btnOpenPort.UseVisualStyleBackColor = True
+        '
+        'tmrGetSerialPorts
+        '
+        '
+        'btnClosePort
+        '
+        Me.btnClosePort.Enabled = False
+        Me.btnClosePort.Location = New System.Drawing.Point(797, 697)
+        Me.btnClosePort.Name = "btnClosePort"
+        Me.btnClosePort.Size = New System.Drawing.Size(42, 23)
+        Me.btnClosePort.TabIndex = 16
+        Me.btnClosePort.Text = "Close"
+        Me.btnClosePort.UseVisualStyleBackColor = True
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(851, 753)
+        Me.Controls.Add(Me.btnClosePort)
+        Me.Controls.Add(Me.btnOpenPort)
+        Me.Controls.Add(Me.lblBaudRate)
+        Me.Controls.Add(Me.lblSerialPorts)
+        Me.Controls.Add(Me.cboBaudRate)
+        Me.Controls.Add(Me.cboSerialPorts)
         Me.Controls.Add(Me.lblGPSLon)
         Me.Controls.Add(Me.lblMaidenhead)
         Me.Controls.Add(Me.Label9)
@@ -187,5 +258,12 @@ Partial Class frmMain
     Friend WithEvents Label9 As System.Windows.Forms.Label
     Friend WithEvents lblMaidenhead As System.Windows.Forms.Label
     Friend WithEvents lblGPSLon As System.Windows.Forms.Label
+    Friend WithEvents cboSerialPorts As System.Windows.Forms.ComboBox
+    Friend WithEvents cboBaudRate As System.Windows.Forms.ComboBox
+    Friend WithEvents lblSerialPorts As System.Windows.Forms.Label
+    Friend WithEvents lblBaudRate As System.Windows.Forms.Label
+    Friend WithEvents btnOpenPort As System.Windows.Forms.Button
+    Friend WithEvents tmrGetSerialPorts As System.Windows.Forms.Timer
+    Friend WithEvents btnClosePort As System.Windows.Forms.Button
 
 End Class
