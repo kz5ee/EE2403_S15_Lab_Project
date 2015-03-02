@@ -41,6 +41,8 @@ Public Class frmMain
         Period = CInt(My.Settings.Period)
 
         Select Case TimeUnits
+            Case "ms"
+                UpdateInterval = Period
             Case "s"
                 UpdateInterval = Period * 1000
             Case "min"
