@@ -2,7 +2,9 @@
 
 #include <stdio.h>
 #include <pps.h>
+#include "../inc/chip_setup.h"
 #include "../inc/timers.h"
+#include "../inc/Comms.h"
 #include "../inc/io_conf.h"
 
 
@@ -46,7 +48,7 @@ inline void Timer2_Setup(void)
                     );
 
 
-    //printf("Timer 2 setup\r\n");
+    printf("Timer 2 setup\r\n");
 }
 
 #endif
@@ -69,7 +71,7 @@ inline void Timer3_Setup(void)
                     );
 
 
-    //printf("Timer 3 setup\r\n");
+    printf("Timer 3 setup\r\n");
 }
 
 #endif
@@ -93,7 +95,7 @@ inline void Timer4_Setup(void)
                     );
 
 
-    //printf("Timer 4 setup\r\n");
+    printf("Timer 4 setup\r\n");
 }
 
 #endif
@@ -116,7 +118,7 @@ inline void Timer5_Setup(void)
                     );
 
 
-    //printf("Timer 5 setup\r\n");
+    printf("Timer 5 setup\r\n");
 }
 
 #endif
@@ -140,7 +142,7 @@ inline void Timer6_Setup(void)
                     );
 
 
-    //printf("Timer 6 setup\r\n");
+    printf("Timer 6 setup\r\n");
 }
 
 #endif
@@ -163,7 +165,7 @@ inline void Timer7_Setup(void)
                     );
 
 
-    //printf("Timer 7 setup\r\n");
+    printf("Timer 7 setup\r\n");
 }
 
 #endif
@@ -187,7 +189,7 @@ inline void Timer8_Setup(void)
                     );
 
 
-    //printf("Timer 2 setup\r\n");
+    printf("Timer 8 setup\r\n");
 }
 
 #endif
@@ -210,7 +212,7 @@ inline void Timer9_Setup(void)
                     );
 
 
-    //printf("Timer 2 setup\r\n");
+    printf("Timer 9 setup\r\n");
 }
 
 #endif
@@ -245,13 +247,22 @@ inline void Timer9_Setup(void)
         //Set up RX for UARTs
         PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RPI49);
         PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RPI50);
-        PPSInput(IN_FN_PPS_U3RX, IN_PIN_PPS_RPI51);
-        PPSInput(IN_FN_PPS_U4RX, IN_PIN_PPS_RPI52);
+        //PPSInput(IN_FN_PPS_U3RX, IN_PIN_PPS_RPI51);
+        //PPSInput(IN_FN_PPS_U4RX, IN_PIN_PPS_RPI52);
 
         //Set up TX for UARTs
         PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP84);
         PPSOutput(OUT_FN_PPS_U2TX, OUT_PIN_PPS_RP82);
-        PPSOutput(OUT_FN_PPS_U3TX, OUT_PIN_PPS_RP80);
-        PPSOutput(OUT_FN_PPS_U4TX, OUT_PIN_PPS_RP71);
+        //PPSOutput(OUT_FN_PPS_U3TX, OUT_PIN_PPS_RP80);
+        //PPSOutput(OUT_FN_PPS_U4TX, OUT_PIN_PPS_RP71);
     }
 //</editor-fold>
+
+    inline void ChipInitialize(void)
+    {
+        ANSEL_Config();
+        TRIS_Config();
+        UART1_Config();
+        UART2_Config();
+        PPS_Config();
+    }

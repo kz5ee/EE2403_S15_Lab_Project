@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <p24Exxxx.h>
+#include "inc/chip_setup.h"
 #include "inc/Comms.h"
 #include "inc/timers.h"
 #include "inc/buffers.h"
@@ -29,8 +30,14 @@ _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 int main(int argc, char** argv) {
     void Ludacris_Speed_GO(void); //Function to set FOSC=140MHz
     Ludacris_Speed_GO();
+    
+    ChipInitialize();
+    printf("May the Schwartz be with you\r\n");
 
-
+    while(1)
+    {
+        Nop();
+    }
 
 
 

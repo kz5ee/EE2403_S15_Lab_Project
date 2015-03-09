@@ -8,6 +8,7 @@
       <itemPath>inc/timers.h</itemPath>
       <itemPath>inc/io_conf.h</itemPath>
       <itemPath>inc/buffers.h</itemPath>
+      <itemPath>inc/chip_setup.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -105,8 +106,6 @@
       <C30-AR>
         <property key="additional-options-chop-files" value="false"/>
       </C30-AR>
-      <C30-AS>
-      </C30-AS>
       <C30-LD>
         <property key="additional-options-use-response-files" value="false"/>
         <property key="boot-eeprom" value="no_eeprom"/>
