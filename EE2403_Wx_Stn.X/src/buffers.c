@@ -13,7 +13,9 @@ UINT8 Uart2RingBuffer[TPBUFMAXSIZE];
 UINT8 Uart3RingBuffer[GPSBUFMAXSIZE];//Max length of NEMA sentence is 80 and the max STX is 154
 UINT8 Uart4RingBuffer[MAXRINGBUFSIZE];
 
-UINT16 U2HIndex = 0,U2TIndex = 0,U3HIndex = 0,U3TIndex = 0,U4HIndex = 0,U4TIndex = 0;//Internal Indexes
+//UINT8 UartRingBuffer[3][];
+
+UINT16 HIndex[3] = 0,TIndex[3] = 0;//Internal Indexes
 
 /// @fn void RngAdd(U8 NewData)
 /// @author Jonathan Streeter
@@ -28,6 +30,23 @@ UINT16 U2HIndex = 0,U2TIndex = 0,U3HIndex = 0,U3TIndex = 0,U4HIndex = 0,U4TIndex
 ////////////////////////////////////////////////////////////////////////////////
 void RngAdd(UINT8 NewData)
 {
+    switch (UARTBUFFER)
+    {
+        case PRESSTEMP:
+
+            break;
+
+        case GPS:
+
+            break;
+
+        case FREE:
+
+            break;
+
+        default:
+            break;
+    }
     if(U2RXBUFF == 1)
     {
         Uart2RingBuffer[U2HIndex] = NewData;//Shove data in

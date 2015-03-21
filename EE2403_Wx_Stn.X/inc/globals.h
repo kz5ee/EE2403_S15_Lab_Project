@@ -14,11 +14,18 @@ extern "C" {
 
 #include <Generic.h>
 
-extern DWORD_VAL Flags;
+    typedef enum
+    {
+        PRESSTEMP = 0,
+                GPS = 1,
+                FREE = 2
+    }_UBUFFER;
 
-#define U2RXBUFF    Flags.wordUnion.low.bits.b0
-#define U3RXBUFF    Flags.wordUnion.low.bits.b1
-#define U4RXBUFF    Flags.wordUnion.low.bits.b2
+    extern _UBUFFER UARTBUFFER;
+
+//extern DWORD_VAL Flags;
+
+
 
 
 
