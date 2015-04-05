@@ -18,9 +18,10 @@
  * Refer to lines 50,605 - 50,961 in the PIC42EP512GU810.h header file.
  */
 
+
 _FGS(GWRP_OFF & GSS_OFF & GSSK_OFF)
-_FOSCSEL(FNOSC_FRCPLL & IESO_ON)
-_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE)
+_FOSCSEL(FNOSC_FRCPLL & IESO_OFF)
+_FOSC(FCKSM_CSECMD & OSCIOFNC_ON & POSCMD_NONE & IOL1WAY_OFF)
 _FWDT( WDTPOST_PS8192 & WDTPRE_PR32 & WINDIS_OFF & FWDTEN_OFF & PLLKEN_ON)
 _FPOR( FPWRT_PWR128 & BOREN_ON)
 _FICD( ICS_PGD1 & JTAGEN_OFF)
@@ -31,17 +32,13 @@ int main(int argc, char** argv) {
     void Ludacris_Speed_GO(void); //Function to set FOSC=140MHz
     Ludacris_Speed_GO();
 
-    ANSELCbits.ANSC1 = 0;
-    ANSELEbits.ANSE4 = 0;
     ANSELEbits.ANSE3 = 0;
 
-    TRISDbits.TRISD9 = 0;
     TRISEbits.TRISE3 = 0;
 
-    //UART1_Config();
+    UART1_Config();
 
-    LATDbits.LATD9 = 1;
-    
+       
     //ChipInitialize();
     printf("May the Schwartz be with you\r\n");
 
@@ -57,17 +54,22 @@ int main(int argc, char** argv) {
     return (EXIT_SUCCESS);
 }
 
-inline void Ludacris_Speed_GO(void)
+inline void Ludacris_Speed_GO()
 {
-    // Configure PLL prescaler, PLL postscaler, PLL divisor
-PLLFBD=74; // M=76
-CLKDIVbits.PLLPOST=0; // N2=2
-CLKDIVbits.PLLPRE=0; // N1=2
-// Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
-__builtin_write_OSCCONH(0x01);
-__builtin_write_OSCCONL(OSCCON | 0x01);
-// Wait for Clock switch to occur
-while (OSCCONbits.COSC!= 0b001);
-// Wait for PLL to lock
-while (OSCCONbits.LOCK!= 1);
+    //This code from Microchip Family Ref. 39 Oscillator(Part III)
+    //Configure PLL prescaler, PLL postscaler, PLL divisor
+
+    OSCTUN = 0x15;  //Tune Oscillator to 8 MHz
+
+    PLLFBD = 68; // M = 40
+    CLKDIVbits.PLLPOST = 0; // N2 = 2
+    CLKDIVbits.PLLPRE = 0; // N1 = 2
+    // Initiate Clock Switch to Internal FRC with PLL (NOSC = 0b001)
+    __builtin_write_OSCCONH(0x01);
+    __builtin_write_OSCCONL(0x01);
+    // Wait for Clock switch to occur
+    while (OSCCONbits.COSC != 0b001);
+    // Wait for PLL to lock
+    while(OSCCONbits.LOCK != 1) {};
+    return;
 }

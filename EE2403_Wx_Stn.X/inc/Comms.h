@@ -16,7 +16,6 @@ extern "C" {
 #include <Generic.h>
 #include <uart.h>
 #include <spi.h>
-//#include <i2c.h>
 #include <pps.h>
 
 #define __FOSC_ 140000000
@@ -60,12 +59,6 @@ extern void UART3_Config(void);
 
 
     //</editor-fold>
-
-//    //<editor-fold defaultstate="collapsed" desc="I2C Configuration">
-//
-//
-//
-//    //</editor-fold>
 
 
 #ifdef	__cplusplus
