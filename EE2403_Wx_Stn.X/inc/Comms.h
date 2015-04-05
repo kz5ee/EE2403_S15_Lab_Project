@@ -18,7 +18,7 @@ extern "C" {
 #include <spi.h>
 #include <pps.h>
 
-#define __FOSC_ 140000000
+#define __FOSC_ 7370000
 #define __FTCY_ (__FOSC_/2)
 
     //<editor-fold defaultstate="collapsed" desc="UART Configuration">

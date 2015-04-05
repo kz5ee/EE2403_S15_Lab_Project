@@ -15,10 +15,10 @@ inline void Timer1_Setup(void)
             T1_OFF &
             T1_IDLE_CON &
             T1_GATE_OFF &
-            T1_PS_1_64 &
+            T1_PS_1_8 &
             T1_SYNC_EXT_OFF &
             T1_SOURCE_INT,
-            60027); //for ~10 (9.98)ms period.
+            42505); //for ~100 (99.99)ms period.
 
     ConfigIntTimer1(
             T1_INT_PRIOR_2 &

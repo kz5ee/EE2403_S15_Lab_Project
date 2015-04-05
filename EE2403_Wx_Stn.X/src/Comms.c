@@ -35,7 +35,7 @@ void UART1_Config(void){
             __BAUDUART1_ //Baud rate
             ));
     ConfigIntUART1(
-                UART_RX_INT_EN &        //Receive interrupt enabled
+                UART_RX_INT_DIS &        //Receive interrupt enabled
                 UART_RX_INT_PR1 &       //Priority RX interrupt 1
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
@@ -48,7 +48,7 @@ void UART1_Config(void){
     TRISFbits.TRISF5 = 0;               //Set UART1 TX as output
 
     PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RP100);
-    PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP100);
+    PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP101);
 
     printf("UART1 Configured.\r\n");
 }
