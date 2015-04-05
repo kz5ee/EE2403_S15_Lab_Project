@@ -262,7 +262,8 @@ inline void Timer9_Setup(void)
     {
         ANSEL_Config();
         TRIS_Config();
+        PPS_Config();
         UART1_Config();
         UART2_Config();
-        PPS_Config();
+        
     }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <p24Exxxx.h>
+#include <pps.h>
 #include "../inc/Comms.h"
 
 
@@ -40,8 +41,12 @@ void UART1_Config(void){
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
 
+    
     TRISCbits.TRISC1 = 1;               //Set UART1 RX as input
     TRISEbits.TRISE4 = 0;               //Set UART1 TX as output
+
+    PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RPI49);
+    PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP84);
 
     printf("UART1 Configured.\r\n");
 }

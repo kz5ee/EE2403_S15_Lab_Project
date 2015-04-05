@@ -85,6 +85,10 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 {
     _U1RXIF = 0;
 
+    char received;
+    received = U1RXREG;
+
+    U1TXREG = received;
 
     return;
 }
