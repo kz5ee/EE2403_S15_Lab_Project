@@ -85,6 +85,10 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 {
     _U1RXIF = 0;
 
+    char received;
+    received = U1RXREG;
+
+    U1TXREG = received;
 
     return;
 }
@@ -92,6 +96,16 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U2RXInterrupt(void)
 {
     _U2RXIF = 0;
+
+    char received;
+    received = U2RXREG;
+
+
+
+    if(received == '$')
+    {
+        printf("Received data from Temp/Pressure module\r\n");
+    }
 
 
     return;
