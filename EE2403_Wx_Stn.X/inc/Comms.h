@@ -30,7 +30,7 @@ extern void UART1_Config(void);
 
 #ifdef _U2RXIF
 
-#define __U2BAUD_ 2400L //Desired baud rate UART2 CHANGE THIS
+#define __U2BAUD_ 9600L //Desired baud rate UART2 CHANGE THIS
 #define __BAUDUART2_ ((__FTCY_/(16*__U2BAUD_))-1)
 
 extern void UART2_Config(void);

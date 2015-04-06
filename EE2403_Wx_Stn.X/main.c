@@ -13,6 +13,7 @@
 #include "inc/timers.h"
 #include "inc/buffers.h"
 
+
 /*
  * Words of Power (Configuration Words)
  * Refer to lines 50,605 - 50,961 in the PIC42EP512GU810.h header file.
@@ -27,49 +28,31 @@ _FPOR( FPWRT_PWR128 & BOREN_ON)
 _FICD( ICS_PGD1 & JTAGEN_OFF)
 _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
+#define FRC_FREQ 7370000
+#define FCY (FRC_FREQ/2)
+
+#include <libpic30.h>
+
 
 int main(int argc, char** argv) {
-    //void Ludacris_Speed_GO(void); //Function to set FOSC=140MHz
-    //Ludacris_Speed_GO();
-
-    ANSELEbits.ANSE3 = 0;
-
-    TRISEbits.TRISE3 = 0;
 
     UART1_Config();
+    UART2_Config();
 
+    TRISFbits.TRISF3 = 0;
        
     //ChipInitialize();
     printf("May the Schwartz be with you\r\n");
 
     while(1)
     {
-        //printf("Testing\r\n");
-        LATEbits.LATE3 ^= 0;
-
+        __delay_ms(1000);
+        LATFbits.LATF3 ^= 1;
+        //printf("Hello\n");
     }
+
 
 
 
     return (EXIT_SUCCESS);
 }
-
-//inline void Ludacris_Speed_GO()
-//{
-//    //This code from Microchip Family Ref. 39 Oscillator(Part III)
-//    //Configure PLL prescaler, PLL postscaler, PLL divisor
-//
-//    OSCTUN = 0x15;  //Tune Oscillator to 8 MHz
-//
-//    PLLFBD = 68; // M = 40
-//    CLKDIVbits.PLLPOST = 0; // N2 = 2
-//    CLKDIVbits.PLLPRE = 0; // N1 = 2
-//    // Initiate Clock Switch to Internal FRC with PLL (NOSC = 0b001)
-//    __builtin_write_OSCCONH(0x01);
-//    __builtin_write_OSCCONL(0x01);
-//    // Wait for Clock switch to occur
-//    while (OSCCONbits.COSC != 0b001);
-//    // Wait for PLL to lock
-//    while(OSCCONbits.LOCK != 1) {};
-//    return;
-//}
