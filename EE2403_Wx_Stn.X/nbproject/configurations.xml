@@ -9,6 +9,7 @@
       <itemPath>inc/io_conf.h</itemPath>
       <itemPath>inc/buffers.h</itemPath>
       <itemPath>inc/chip_setup.h</itemPath>
+      <itemPath>inc/a2d.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

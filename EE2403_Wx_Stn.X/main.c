@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <Generic.h>
 #include <p24Exxxx.h>
 #include "inc/chip_setup.h"
 #include "inc/Comms.h"
@@ -36,19 +37,32 @@ _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
 int main(int argc, char** argv) {
 
-    UART1_Config();
-    UART2_Config();
+    int ADCRaw;
+    double ADCVal;
+
+    //UART1_Config();
+    //UART2_Config();
 
     TRISFbits.TRISF3 = 0;
        
-    //ChipInitialize();
+    ChipInitialize();
     printf("May the Schwartz be with you\r\n");
 
     while(1)
     {
-        __delay_ms(1000);
-        LATFbits.LATF3 ^= 1;
+        __delay_ms(100);
+        //LATFbits.LATF3 ^= 1;
         //printf("Hello\n");
+        AD1CON1bits.SAMP = 1;
+        __delay_us(10);
+        AD1CON1bits.SAMP = 0;
+        while(!AD1CON1bits.DONE);
+        AD1CON1bits.DONE = 0;
+        ADCRaw = ADC1BUF0;
+
+        ADCVal = (ADCRaw/1024.0)*(2.048);
+
+        printf("ADC Value is %f\n", ADCVal);
     }
 
 
