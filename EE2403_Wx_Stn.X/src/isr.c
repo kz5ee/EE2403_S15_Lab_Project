@@ -132,3 +132,15 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 }
 #endif
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="ADC Interrupt">
+       void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
+{
+    _AD1IF = 0;
+    
+
+
+    return;
+}
+
+ //</editor-fold>

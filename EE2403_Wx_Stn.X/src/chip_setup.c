@@ -277,6 +277,8 @@ inline void Timer9_Setup(void)
 
         AD1CHS0 = (ADC_CH0_NEG_SAMPLEB_VREFN & ADC_CH0_POS_SAMPLEA_AN13);
 
+        ConfigIntADC1(ADC_INT_ENABLE & ADC_INT_PRI_4);
+
 
         printf("A2D is Green\r\n");
     }
