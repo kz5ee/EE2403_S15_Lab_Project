@@ -38,7 +38,7 @@ _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
 int main(int argc, char** argv) {
     OSCTUN = 0x15;
-//// Configure PLL prescaler, PLL postscaler, PLL divisor
+// Configure PLL prescaler, PLL postscaler, PLL divisor
 //PLLFBD=63; // M=65
 //CLKDIVbits.PLLPOST=0; // N2=2
 //CLKDIVbits.PLLPRE=1; // N1=3
@@ -50,9 +50,7 @@ int main(int argc, char** argv) {
 //// Wait for PLL to lock
 //while (OSCCONbits.LOCK!= 1);
 
-    int ADCRaw;
-    double ADCVal;
-
+    
     //UART1_Config();
     //UART2_Config();
 
@@ -65,17 +63,7 @@ int main(int argc, char** argv) {
     {
         __delay_ms(1000);
         LATFbits.LATF3 ^= 1;
-        //printf("Hello\n");
-//        AD1CON1bits.SAMP = 1;
-//        __delay_us(10);
-//        AD1CON1bits.SAMP = 0;
-//        while(!AD1CON1bits.DONE);
-//        AD1CON1bits.DONE = 0;
-//        ADCRaw = ADC1BUF0;
-//
-//        ADCVal = (ADCRaw/1024.0)*(2.048);
-//
-//        printf("ADC Value is %f\n", ADCVal);
+        
     }
 
 

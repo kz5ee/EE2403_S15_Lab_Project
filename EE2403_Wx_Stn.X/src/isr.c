@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <p24Exxxx.h>
+#include "../inc/globals.h"
 
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
@@ -137,8 +138,13 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
        void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
 {
     _AD1IF = 0;
+    double ADValue;
+    //printf("A2D Interrut has fired\r\n");
     
+    ADRaw = ADC1BUF0;
+    ADValue = (ADRaw / 4096.0)*(2.048);
 
+    printf("ADC Value:  %d = %f V\r\n",ADRaw,ADValue);
 
     return;
 }

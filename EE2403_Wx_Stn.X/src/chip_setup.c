@@ -230,6 +230,8 @@ inline void Timer9_Setup(void)
         ANSELD = 0x0000;
         ANSELE = 0x0000;
         ANSELG = 0x0000;
+
+        //ANSELAbits.ANSA10
     }
 
     void TRIS_Config(void)
@@ -241,6 +243,10 @@ inline void Timer9_Setup(void)
         TRISE = 0x0000;
         TRISF = 0x0000;
         TRISG = 0x0000;
+
+        TRISAbits.TRISA9 = 1;
+        TRISAbits.TRISA10 = 1;
+
     }
 
     void PPS_Config(void)
@@ -261,16 +267,10 @@ inline void Timer9_Setup(void)
 
     void Config_A2D(void)
     {
-//        AD1CON1 = 0b1001000000000000;
-//        AD1CON2 = 0b0110000010000000;
-//        AD1CON3 = 0b1000000000000000;
-//        AD1CON4 = 0b0000000000000000;
-//        AD1CHS123 = 0b0000000000000000;
-
         TRISBbits.TRISB13 = 1;
         ANSELBbits.ANSB13 = 1;
 
-        AD1CON1 = (ADC_MODULE_ON & ADC_IDLE_STOP & ADC_AD12B_12BIT & ADC_ADDMABM_ORDER & ADC_FORMAT_INTG & ADC_SSRC_AUTO & ADC_MULTIPLE & ADC_AUTO_SAMPLING_ON);
+        AD1CON1 = (ADC_IDLE_STOP & ADC_AD12B_12BIT & ADC_ADDMABM_ORDER & ADC_FORMAT_INTG & ADC_SSRC_AUTO & ADC_MULTIPLE & ADC_AUTO_SAMPLING_ON);
         AD1CON2 = (ADC_VREF_EXT_EXT & ADC_SCAN_OFF & ADC_SELECT_CHAN_0 & ADC_SETS_OF_SAMPLES_PER_INT_1 & ADC_BUF_FILL_0x0_0x7 & ADC_ALT_INPUT_OFF);
         AD1CON3 = (ADC_CONV_CLK_INTERNAL_RC & ADC_SAMPLE_TIME_31);
         AD1CON4 = (ADC_DMA_DIS);
@@ -279,6 +279,9 @@ inline void Timer9_Setup(void)
 
         ConfigIntADC1(ADC_INT_ENABLE & ADC_INT_PRI_4);
 
+        _AD1IF = 0;
+
+        AD1CON1bits.ADON = 1;
 
         printf("A2D is Green\r\n");
     }
