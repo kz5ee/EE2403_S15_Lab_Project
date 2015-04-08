@@ -8,7 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <Generic.h>
-#include <p24Exxxx.h>
+//#include <p24Exxxx.h>
+#include <xc.h>
 #include "inc/chip_setup.h"
 #include "inc/Comms.h"
 #include "inc/timers.h"
@@ -23,19 +24,31 @@
 
 _FGS(GWRP_OFF & GSS_OFF & GSSK_OFF)
 _FOSCSEL(FNOSC_FRC & IESO_OFF)
-_FOSC(FCKSM_CSECMD & OSCIOFNC_ON & POSCMD_NONE & IOL1WAY_OFF)
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_NONE)
 _FWDT( WDTPOST_PS8192 & WDTPRE_PR32 & WINDIS_OFF & FWDTEN_OFF & PLLKEN_ON)
 _FPOR( FPWRT_PWR128 & BOREN_ON)
 _FICD( ICS_PGD1 & JTAGEN_OFF)
 _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
-#define FRC_FREQ 7370000
+#define FRC_FREQ 8000000
 #define FCY (FRC_FREQ/2)
 
 #include <libpic30.h>
 
 
 int main(int argc, char** argv) {
+    OSCTUN = 0x15;
+//// Configure PLL prescaler, PLL postscaler, PLL divisor
+//PLLFBD=63; // M=65
+//CLKDIVbits.PLLPOST=0; // N2=2
+//CLKDIVbits.PLLPRE=1; // N1=3
+//// Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
+//__builtin_write_OSCCONH(0x01);
+//__builtin_write_OSCCONL(OSCCON | 0x01);
+//// Wait for Clock switch to occur
+//while (OSCCONbits.COSC!= 0b001);
+//// Wait for PLL to lock
+//while (OSCCONbits.LOCK!= 1);
 
     int ADCRaw;
     double ADCVal;
@@ -50,19 +63,19 @@ int main(int argc, char** argv) {
 
     while(1)
     {
-        __delay_ms(100);
-        //LATFbits.LATF3 ^= 1;
+        __delay_ms(1000);
+        LATFbits.LATF3 ^= 1;
         //printf("Hello\n");
-        AD1CON1bits.SAMP = 1;
-        __delay_us(10);
-        AD1CON1bits.SAMP = 0;
-        while(!AD1CON1bits.DONE);
-        AD1CON1bits.DONE = 0;
-        ADCRaw = ADC1BUF0;
-
-        ADCVal = (ADCRaw/1024.0)*(2.048);
-
-        printf("ADC Value is %f\n", ADCVal);
+//        AD1CON1bits.SAMP = 1;
+//        __delay_us(10);
+//        AD1CON1bits.SAMP = 0;
+//        while(!AD1CON1bits.DONE);
+//        AD1CON1bits.DONE = 0;
+//        ADCRaw = ADC1BUF0;
+//
+//        ADCVal = (ADCRaw/1024.0)*(2.048);
+//
+//        printf("ADC Value is %f\n", ADCVal);
     }
 
 
