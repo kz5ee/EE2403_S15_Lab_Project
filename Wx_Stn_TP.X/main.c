@@ -30,7 +30,7 @@
 #include <stdlib.h>
 #include <pic16f1823.h>
 
-int i=0;                //Counting Variable
+//int i=0;                //Counting Variable
 int PressureH;          // Pressure high byte Sensor Reading
 int PressureL;          // Pressure low byte
 int TemperatureH;       // Temperature high byte Sensor Reading
@@ -62,6 +62,12 @@ float Pbase = 16.37336172;
 //int FillinPres(void);
 //int FillinTemp(void);
 
+void putch(unsigned char byte)
+{
+    TXREG=byte;
+    while(!TXIF)continue;
+    TXIF=0;
+}
 
 int main(void)
 {
@@ -157,38 +163,40 @@ int main(void)
 //                Temperature01 = Temperature[TemperatureH][TemperatureL].C;
 //                TemperatureP1 = Temperature[TemperatureH][TemperatureL].D;
             // Transmit Resultsin format *TP,Temperature,Pressure,$  LSB first
-                TXREG = 0x2A;                   // Transmit *
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0x54;                   // Transmit T
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0x50;                   // Transmit P
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0x2C;                   // Transmit ,
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = Temperature10;            // Transmit Temperature
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = Temperature01;            // Transmit Temperature
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = Period;               // Transmit Pressure
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = TemperatureP1;            // Transmit Temperature
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0x2C;                   // Transmit ,
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = Pressure10;               // Transmit Pressure
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = Pressure01;               // Transmit Pressure
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = Period;               // Transmit Pressure
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = PressureP1;               // Transmit Pressure
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0x2C;                   // Transmit ,
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0x24;                   // Transmit $
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-                TXREG = 0xA;                    // Transmit \n
-                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+
+                printf("*TP,%f,%f,$",Pressure,Temperature);
+//                TXREG = 0x2A;                   // Transmit *
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0x54;                   // Transmit T
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0x50;                   // Transmit P
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0x2C;                   // Transmit ,
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = Temperature10;            // Transmit Temperature
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = Temperature01;            // Transmit Temperature
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = Period;               // Transmit Pressure
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = TemperatureP1;            // Transmit Temperature
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0x2C;                   // Transmit ,
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = Pressure10;               // Transmit Pressure
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = Pressure01;               // Transmit Pressure
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = Period;               // Transmit Pressure
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = PressureP1;               // Transmit Pressure
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0x2C;                   // Transmit ,
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0x24;                   // Transmit $
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
+//                TXREG = 0xA;                    // Transmit \n
+//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
                 
         }   // End Conversion/Transmission Loop
     } // End While Loop of Constant Operation
