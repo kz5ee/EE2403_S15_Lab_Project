@@ -138,13 +138,16 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
        void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
 {
     _AD1IF = 0;
-    double ADValue;
+    double ADValue, mph;
+
     //printf("A2D Interrut has fired\r\n");
     
     ADRaw = ADC1BUF0;
-    ADValue = (ADRaw / 4096.0)*(2.048);
+    ADValue = (((ADRaw)/ 4095.0)*(2.042))* 1000;
 
-    printf("ADC Value:  %d = %f V\r\n",ADRaw,ADValue);
+    mph = ADValue / 22;
+
+    printf("ADC Value:  %d = %f mV = %f MPH\r\n",ADRaw,ADValue,mph);
 
     return;
 }
