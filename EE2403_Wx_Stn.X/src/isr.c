@@ -88,12 +88,26 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 //<editor-fold defaultstate="collapsed" desc="UART RX Interrupts">
     void __attribute__((interrupt,auto_psv)) _ISR _U1RXInterrupt(void)
 {
+        //static int count =0;
     _U1RXIF = 0;
-
     char received;
     received = U1RXREG;
-
     U1TXREG = received;
+//    U1RXDat[count] = received;
+//    count++;
+
+    
+    //printf("U1RX Fired\r\n");
+    
+
+    
+    if (received == 0x60)
+    {
+        U2TXREG = 0x13;
+        printf("Command Sent\r\n");
+    }
+
+    //printf("%s \r\n",U1RXDat);
 
     return;
 }
@@ -105,13 +119,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     char received;
     received = U2RXREG;
 
-
-
-    if(received == '$')
-    {
-        printf("Received data from Temp/Pressure module\r\n");
-    }
-
+    printf("%c",received);
 
     return;
 }
@@ -150,7 +158,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     //printf("A2D Interrut has fired\r\n");
     
     ADRaw = ADC1BUF0;
-    ADValue = (((ADRaw/ 4095.0)*(2.042))* 1000) - 402;
+    ADValue = (((ADRaw/ 4095.0)*(2.042))* 1000) - 400;
     
     //ADAvg = (ADAvg + ADValue) / counter;
 
@@ -158,7 +166,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     
     //if(counter == 100)
     //{
-       printf("ADC Value:  %d = %f mV = %f MPH Average:  \r\n",ADRaw,ADValue,mph);
+       printf("ADC Value:  %d = %f mV          ->      %f MPH\r\n",ADRaw,ADValue,mph);
        //counter = 0;
     //}
 

@@ -241,7 +241,7 @@ inline void Timer9_Setup(void)
         TRISC = 0x0000;
         TRISD = 0x0000;
         TRISE = 0x0000;
-        TRISF = 0x0000;
+        //TRISF = 0x0000;
         TRISG = 0x0000;
 
         TRISAbits.TRISA9 = 1;
@@ -279,7 +279,7 @@ inline void Timer9_Setup(void)
         //AD1CHS0bits.CH0SA = 13; // Select AN13 for CH0 +ve input
         //AD1CHS0bits.CH0NA = 0; // Select Vref- for CH0 -ve input
 
-        ConfigIntADC1(ADC_INT_DISABLE & ADC_INT_PRI_2);
+        ConfigIntADC1(ADC_INT_ENABLE & ADC_INT_PRI_2);
 
         _AD1IF = 0;
 
@@ -294,7 +294,7 @@ inline void Timer9_Setup(void)
         TRIS_Config();
         //PPS_Config();
         UART1_Config();
-        UART2_Config();
+        //UART2_Config();
         Config_A2D();
         //Timer2_Setup();
         

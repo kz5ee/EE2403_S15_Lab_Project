@@ -30,14 +30,14 @@ _FPOR( FPWRT_PWR128 & BOREN_ON)
 _FICD( ICS_PGD1 & JTAGEN_OFF)
 _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
-#define FRC_FREQ 8000000
+#define FRC_FREQ 7370000
 #define FCY (FRC_FREQ/2)
 
 #include <libpic30.h>
 
 
 int main(int argc, char** argv) {
-    OSCTUN = 0x15;
+    //dOSCTUN = 0x15;
 // Configure PLL prescaler, PLL postscaler, PLL divisor
 //PLLFBD=63; // M=65
 //CLKDIVbits.PLLPOST=0; // N2=2
