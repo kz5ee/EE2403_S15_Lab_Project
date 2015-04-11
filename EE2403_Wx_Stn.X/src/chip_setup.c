@@ -35,7 +35,7 @@ inline void Timer1_Setup(void)
 inline void Timer2_Setup(void)
 {
     OpenTimer2(
-            T2_OFF &
+            T2_ON &
             T2_IDLE_CON &
             T2_GATE_OFF &
             T2_PS_1_64 &
@@ -270,14 +270,16 @@ inline void Timer9_Setup(void)
         TRISBbits.TRISB13 = 1;
         ANSELBbits.ANSB13 = 1;
 
-        AD1CON1 = (ADC_IDLE_STOP & ADC_AD12B_12BIT & ADC_ADDMABM_ORDER & ADC_FORMAT_INTG & ADC_SSRC_AUTO & ADC_MULTIPLE & ADC_AUTO_SAMPLING_ON);
-        AD1CON2 = (ADC_VREF_AVDD_AVSS & ADC_SCAN_OFF & ADC_SELECT_CHAN_0 & ADC_SETS_OF_SAMPLES_PER_INT_1 & ADC_BUF_FILL_0x0_0x7 & ADC_ALT_INPUT_OFF);
+        AD1CON1 = (ADC_IDLE_STOP & ADC_AD12B_12BIT & ADC_ADDMABM_ORDER & ADC_FORMAT_INTG & ADC_SSRC_AUTO & ADC_MULTIPLE & ADC_AUTO_SAMPLING_OFF);
+        AD1CON2 = (ADC_VREF_EXT_AVSS & ADC_SCAN_OFF & ADC_SELECT_CHAN_0 & ADC_SETS_OF_SAMPLES_PER_INT_1 & ADC_BUF_FILL_0x0_0x7 & ADC_ALT_INPUT_OFF);
         AD1CON3 = (ADC_CONV_CLK_INTERNAL_RC & ADC_SAMPLE_TIME_31);
         AD1CON4 = (ADC_DMA_DIS);
 
         AD1CHS0 = (ADC_CH0_POS_SAMPLEA_AN13);
+        //AD1CHS0bits.CH0SA = 13; // Select AN13 for CH0 +ve input
+        //AD1CHS0bits.CH0NA = 0; // Select Vref- for CH0 -ve input
 
-        ConfigIntADC1(ADC_INT_ENABLE & ADC_INT_PRI_4);
+        ConfigIntADC1(ADC_INT_DISABLE & ADC_INT_PRI_2);
 
         _AD1IF = 0;
 
@@ -294,5 +296,6 @@ inline void Timer9_Setup(void)
         UART1_Config();
         UART2_Config();
         Config_A2D();
+        //Timer2_Setup();
         
     }

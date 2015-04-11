@@ -19,6 +19,10 @@ void __attribute__((interrupt,auto_psv)) _ISR _T2Interrupt(void)
 {
     _T2IF = 0;
 
+    printf("TMR2 Interrupt fired\r\n");
+
+    AD1CON1bits.ADON = 1;
+    T2CONbits.TON = 0;
 
     return;
 }
@@ -138,16 +142,30 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
        void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
 {
     _AD1IF = 0;
+    //static int counter = 0;
+    //static double ADAvg = 0;
     double ADValue, mph;
+    //counter++;
 
     //printf("A2D Interrut has fired\r\n");
     
     ADRaw = ADC1BUF0;
-    ADValue = (((ADRaw)/ 4095.0)*(2.042))* 1000;
+    ADValue = (((ADRaw/ 4095.0)*(2.042))* 1000) - 402;
+    
+    //ADAvg = (ADAvg + ADValue) / counter;
 
     mph = ADValue / 22;
+    
+    //if(counter == 100)
+    //{
+       printf("ADC Value:  %d = %f mV = %f MPH Average:  \r\n",ADRaw,ADValue,mph);
+       //counter = 0;
+    //}
 
-    printf("ADC Value:  %d = %f mV = %f MPH\r\n",ADRaw,ADValue,mph);
+    
+
+    //AD1CON1bits.ADON = 0;
+    //T2CONbits.TON = 1;
 
     return;
 }

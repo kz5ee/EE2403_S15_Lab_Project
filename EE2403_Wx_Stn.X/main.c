@@ -63,6 +63,7 @@ int main(int argc, char** argv) {
     {
         __delay_ms(1000);
         LATFbits.LATF3 ^= 1;
+        //printf("Timer2 value is:  %d\r\n",TMR2);
         
     }
 
