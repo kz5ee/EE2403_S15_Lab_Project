@@ -8,6 +8,8 @@
       <itemPath>inc/timers.h</itemPath>
       <itemPath>inc/io_conf.h</itemPath>
       <itemPath>inc/buffers.h</itemPath>
+      <itemPath>inc/chip_setup.h</itemPath>
+      <itemPath>inc/globals.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,6 +23,7 @@
       <itemPath>src/chip_setup.c</itemPath>
       <itemPath>src/isr.c</itemPath>
       <itemPath>src/buffers.c</itemPath>
+      <itemPath>src/globals.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -227,6 +230,7 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="USB" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>
@@ -260,7 +264,7 @@
         <property key="programoptions.testmodeentrymethod" value="VPPFirst"/>
         <property key="programoptions.usehighvoltageonmclr" value="false"/>
         <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.25"/>
+        <property key="voltagevalue" value="3.375"/>
       </PICkit3PlatformTool>
     </conf>
   </confs>
