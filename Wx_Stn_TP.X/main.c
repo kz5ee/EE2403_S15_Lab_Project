@@ -36,15 +36,6 @@ int PressureH;          // Pressure high byte Sensor Reading
 int PressureL;          // Pressure low byte
 int TemperatureH;       // Temperature high byte Sensor Reading
 int TemperatureL;       // Temperature low byte
-char Pressure10;        // Converted Pressure 10's Position
-char Pressure01;        // Converted Pressure 1's Position
-char PressureP1;        // Converted Pressure .1's Position
-char PressureP01;       // Converted Pressure .01's Position
-char Temperature100;    // Converted Pressure 100's Position
-char Temperature10;     // Converted Temperature 10's Position
-char Temperature01;     // Converted Temperature 1's Position
-char TemperatureP1;     // Converted Temperature .1's Position
-int Period = 0x2E;      // Period in hex
 
 //typedef struct {
 //    char A;
