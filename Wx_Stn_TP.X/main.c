@@ -7,6 +7,7 @@
 // 'C' source line config statements
 #include <stdio.h>
 #include <stdlib.h>
+#include <GenericTypeDefs.h>
 #include <xc.h>
 
 // #pragma config statements should precede project file includes.
@@ -29,30 +30,13 @@
 #pragma config BORV = LO        // Brown-out Reset Voltage Selection (Brown-out Reset Voltage (Vbor), low trip point selected.)
 #pragma config LVP = OFF        // Low-Voltage Programming Enable (High-voltage on MCLR/VPP must be used for programming)
 
+int TemperatureRaw;
+int PressureRaw;
+float Temperature;
+float Pressure;
 
-
-//int i=0;                //Counting Variable
-int PressureH;          // Pressure high byte Sensor Reading
-int PressureL;          // Pressure low byte
-int TemperatureH;       // Temperature high byte Sensor Reading
-int TemperatureL;       // Temperature low byte
-
-//typedef struct {
-//    char A;
-//    char B;
-//    char C;
-//    char D;
-//} LUT;
-//
-//LUT Temperature [4][256]; // Define Temperature Lookup Table
-double Temperature;
-//LUT Pressure [4][256];    // Define Pressure Lookup Table
-double Pressure;
-double Pmin = 0.032920078;
-double Pbase = 16.37336172;
-//
-//int FillinPres(void);
-//int FillinTemp(void);
+//float Pmin = 0.032920078;
+//float Pbase = 16.37336172;
 
 void putch(unsigned char byte)
 {
@@ -60,6 +44,7 @@ void putch(unsigned char byte)
     while(!TXIF)continue;
     TXIF=0;
 }
+
 
 int main(void)
 {
@@ -98,9 +83,6 @@ int main(void)
     RCSTAbits.RX9 = 0;      // 8-bit Reception
     RCSTAbits.CREN = 1;     // Enable Receiver
 
-    //APFCONbits.SDOSEL = 0;  // Set SDO to RC2
-    //APFCONbits.SSSEL = 0;   // Set SS to RC3
-
     // Configure ADC
     ADCON0bits.ADON = 0;    // Disable AD module during setup
     ADCON1bits.ADPREF = 0;  // Vref = VDD
@@ -110,87 +92,61 @@ int main(void)
     ADCON0bits.ADON = 1;    // Enable AD module after setup
 
     // Fill in Pressure and Temperature Tables
-//    FillinPres();
-//    FillinTemp();
 
     while(1){// Start While Loop of Constant Operation
         //LATAbits.LATA5 = !LATAbits.LATA5;
         
-        // Test UART
-        /*
-         *  for (i=65; i<=90; i++){
-         *      TXREG = i;                  // Step Through Alphabet
-         *      while(!PIR1bits.TXIF){}}    // Wait for Buffer to Clear
-         *  TXREG = 0x0a;               // New Line
-         *  while(!PIR1bits.TXIF){}     // Wait for Buffer to Clear
-         */
-
-        // Check for request from UART
+            // Check for request from UART
             // Check RX flag for something in the buffer
                 while(!RCIF){}  // If nothing in the FIFO, wait longer
         
-        if(RCREG == 0x13){ // Begin Conversion/Transmission Loop
+            if(RCREG == 0x13){ // Begin Conversion/Transmission Loop
             // Convert Pressure and Temperature, then transmit results
+
             // ADC on Pressure
                 ADCON0bits.CHS = 0b00011;       // Set channel for pressure sensor input
                 ADCON0bits.GO = 1;              // Start a conversion
                 while(ADCON0bits.GO){}          // Wait for conversion to complete
-                PressureH = ADRESH;             // Move High Address of conversion to PressureH
-                PressureL = ADRESL;             // Move Low Address of conversion to PressureL
+
+                PressureRaw = ((ADRESH << 8) | ADRESL);
+                Pressure = ((PressureRaw / 1024.0) * 5); //~1.85V to ~2.2V is our effective range
+
             // Convert Pressure
-                Pressure = ((256*PressureH*Pmin)+(PressureL*Pmin))+Pbase;
-//                Pressure10 = Pressure[PressureH][PressureL].A;
-//                Pressure01 = Pressure[PressureH][PressureL].B;
-//                PressureP1 = Pressure[PressureH][PressureL].C;
-//                PressureP01 = Pressure[PressureH][PressureL].D;
+                //Pressure = ((256*PressureH*Pmin)+(PressureL*Pmin))+Pbase;
+//                
             // ADC on Temperature
                 ADCON0bits.CHS = 0b00010;       // Set channel for temperature sensor input
                 ADCON0bits.GO = 1;              // Start a conversion
                 while(ADCON0bits.GO){}          // Wait for conversion to complete
-                TemperatureH = ADRESH;          // Move High Address of conversion to TemperatureH
-                TemperatureL = ADRESL;          // Move Low Address of conversion to TemperatureL
-            // Convert Temperature
-//                Temperature100 = Temperature[TemperatureH][TemperatureL].A;
-//                Temperature10 = Temperature[TemperatureH][TemperatureL].B;
-//                Temperature01 = Temperature[TemperatureH][TemperatureL].C;
-//                TemperatureP1 = Temperature[TemperatureH][TemperatureL].D;
-            // Transmit Resultsin format *TP,Temperature,Pressure,$  LSB first
+                                
+                TemperatureRaw = ((ADRESH << 8) | ADRESL);
+                Temperature = ((TemperatureRaw / 1024.0) * 5);
 
-                printf("*TP,%f,%f,$",Pressure,Temperature);
-//                TXREG = 0x2A;                   // Transmit *
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0x54;                   // Transmit T
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0x50;                   // Transmit P
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0x2C;                   // Transmit ,
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = Temperature10;            // Transmit Temperature
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = Temperature01;            // Transmit Temperature
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = Period;               // Transmit Pressure
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = TemperatureP1;            // Transmit Temperature
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0x2C;                   // Transmit ,
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = Pressure10;               // Transmit Pressure
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = Pressure01;               // Transmit Pressure
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = Period;               // Transmit Pressure
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = PressureP1;               // Transmit Pressure
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0x2C;                   // Transmit ,
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0x24;                   // Transmit $
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
-//                TXREG = 0xA;                    // Transmit \n
-//                while(!PIR1bits.TXIF){}         // Wait for Buffer to Clear
                 
-        }   // End Conversion/Transmission Loop
+                
+                
+                /*In order to get this to compile with the printf and doing stuff with the A2D values,
+                I had to activate the 60-day trial of the PRO edition.*/
+
+
+
+
+
+
+
+                printf("*TP,%.2f,%.2f,$",Temperature,Pressure);
+            
+                
+                
+            }   // End Conversion/Transmission Loop
+                if(RCREG == 0x11)
+                {
+
+                }
+                if(RCREG == 0x12)
+                {
+
+                }
     } // End While Loop of Constant Operation
     return (EXIT_SUCCESS);
 }
