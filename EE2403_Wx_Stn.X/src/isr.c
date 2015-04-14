@@ -163,7 +163,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     ADAverage = (ADAverage + ADValue) / (double)adcounter;
     adcounter++;
 
-       printf("ADC Value:  %d = %f mV\r\n",ADRaw,ADValue);
+       printf("ADC Value:  %d = %f mV  Average:  %.2f\r\n",ADRaw,ADValue,ADAverage);
     
 
     return;

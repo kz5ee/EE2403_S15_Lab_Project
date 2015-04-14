@@ -57,7 +57,7 @@ int main(int argc, char** argv) {
     TRISFbits.TRISF3 = 0;
        
     ChipInitialize();
-    printf("May the Schwartz be with you\r\n");
+    printf("Weather station version 0.7\r\n");
 
     while(1)
     {
