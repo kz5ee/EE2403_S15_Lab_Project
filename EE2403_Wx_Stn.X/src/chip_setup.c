@@ -22,7 +22,7 @@ inline void Timer1_Setup(void)
             42505); //for ~100 (99.99)ms period.
 
     ConfigIntTimer1(
-            T1_INT_PRIOR_2 &
+            T1_INT_PRIOR_1 &
             T1_INT_ON
                     );
 
@@ -38,10 +38,10 @@ inline void Timer2_Setup(void)
             T2_ON &
             T2_IDLE_CON &
             T2_GATE_OFF &
-            T2_PS_1_64 &
+            T2_PS_1_8 &
             T2_32BIT_MODE_OFF &
             T2_SOURCE_INT,
-            60027); //for ~10 (9.98)ms period.
+            63233); //for ~10 (9.98)ms period.
 
     ConfigIntTimer2(
             T2_INT_PRIOR_2 &
@@ -279,7 +279,7 @@ inline void Timer9_Setup(void)
         //AD1CHS0bits.CH0SA = 13; // Select AN13 for CH0 +ve input
         //AD1CHS0bits.CH0NA = 0; // Select Vref- for CH0 -ve input
 
-        ConfigIntADC1(ADC_INT_ENABLE & ADC_INT_PRI_2);
+        ConfigIntADC1(ADC_INT_ENABLE & ADC_INT_PRI_1);
 
         _AD1IF = 0;
 

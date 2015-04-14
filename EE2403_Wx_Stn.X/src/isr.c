@@ -5,13 +5,23 @@
 #include <p24Exxxx.h>
 #include "../inc/globals.h"
 
+static int adcounter = 1;
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
     
-    
+    if(adcounter == 10)         //Have we got 1s worth of samples?
+    {
+        U2TXREG = 0x13;         //Send command to get the Temp/Press. values
+        adcounter = 1;          //Reset the A2D counter
+    }
+    else
+    {
+        AD1CON1bits.SAMP = 1;   //We want to get an A2D sample
+    }
+
     return;
 }
 
@@ -19,10 +29,6 @@ void __attribute__((interrupt,auto_psv)) _ISR _T2Interrupt(void)
 {
     _T2IF = 0;
 
-    printf("TMR2 Interrupt fired\r\n");
-
-    AD1CON1bits.ADON = 1;
-    T2CONbits.TON = 0;
 
     return;
 }
@@ -150,30 +156,15 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
        void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
 {
     _AD1IF = 0;
-    //static int counter = 0;
-    //static double ADAvg = 0;
-    double ADValue, mph;
-    //counter++;
-
-    //printf("A2D Interrut has fired\r\n");
-    
+        
     ADRaw = ADC1BUF0;
-    ADValue = (((ADRaw/ 4095.0)*(2.042))* 1000) - 400;
+    ADValue = (((ADRaw / 4096.0)*(2.042))* 1000) - 400;
     
-    //ADAvg = (ADAvg + ADValue) / counter;
+    ADAverage = (ADAverage + ADValue) / (double)adcounter;
+    adcounter++;
 
-    mph = ADValue / 22;
+       printf("ADC Value:  %d = %f mV\r\n",ADRaw,ADValue);
     
-    //if(counter == 100)
-    //{
-       printf("ADC Value:  %d = %f mV          ->      %f MPH\r\n",ADRaw,ADValue,mph);
-       //counter = 0;
-    //}
-
-    
-
-    //AD1CON1bits.ADON = 0;
-    //T2CONbits.TON = 1;
 
     return;
 }
