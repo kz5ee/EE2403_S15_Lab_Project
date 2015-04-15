@@ -21,6 +21,8 @@ extern "C" {
 #define __FOSC_ 7370000
 #define __FTCY_ (__FOSC_/2)
 
+    extern int anprintf(const char *, ...);
+
     //<editor-fold defaultstate="collapsed" desc="UART Configuration">
     
 #define __U1BAUD_ 9600L //<--- Desired Baud rate UART1 CHANGE THIS

@@ -190,3 +190,22 @@ void UART4_Config(void){
 //<editor-fold defaultstate="collapsed" desc="I2C Configuration">
 
 //</editor-fold>
+
+int anprintf(const char *format,...)
+{
+    char wireless_buff[80];
+    int i = 0;
+    va_list arguments;
+    va_start( arguments, format );
+
+    vsprintf(wireless_buff, format, arguments);
+
+    do
+    {
+        SPI1BUF = wireless_buff[i];
+        i++;
+    } while(wireless_buff[i] != '\0');
+
+
+    return 0;  //Success!
+}
