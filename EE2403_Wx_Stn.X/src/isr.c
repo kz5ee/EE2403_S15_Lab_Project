@@ -3,14 +3,27 @@
 
 #include <stdio.h>
 #include <p24Exxxx.h>
+#include "../inc/globals.h"
 
+static int adcounter = 1;
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
+
     
-    
+    if(adcounter == 10)         //Have we got 1s worth of samples?
+    {
+        U2TXREG = 0x13;         //Send command to get the Temp/Press. values
+        //printf("ADC Value:  %d = %f mV  Average:  %.2f   => %.1f MPH\r\n",ADRaw,ADValue,ADAverage,mph);  //Make sure we've got reasonable values
+        adcounter = 1;          //Reset the A2D counter
+    }
+    else
+    {
+        AD1CON1bits.SAMP = 1;   //We want to get an A2D sample
+    }
+
     return;
 }
 
@@ -83,12 +96,26 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 //<editor-fold defaultstate="collapsed" desc="UART RX Interrupts">
     void __attribute__((interrupt,auto_psv)) _ISR _U1RXInterrupt(void)
 {
+        //static int count =0;
     _U1RXIF = 0;
-
     char received;
     received = U1RXREG;
-
     U1TXREG = received;
+//    U1RXDat[count] = received;
+//    count++;
+
+    
+    //printf("U1RX Fired\r\n");
+    
+
+    
+    if (received == 0x60)
+    {
+        U2TXREG = 0x13;
+        printf("Command Sent\r\n");
+    }
+
+    //printf("%s \r\n",U1RXDat);
 
     return;
 }
@@ -100,13 +127,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     char received;
     received = U2RXREG;
 
-
-
-    if(received == '$')
-    {
-        printf("Received data from Temp/Pressure module\r\n");
-    }
-
+    printf("%c",received);
 
     return;
 }
@@ -132,3 +153,22 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 }
 #endif
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="ADC Interrupt">
+       void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
+{
+    _AD1IF = 0;
+        
+    ADRaw = ADC1BUF0;
+    ADValue = (((ADRaw / 4096.0)*(2.042))* 1000) - 400;
+    
+    ADAverage = (ADAverage + ADValue) / (double)adcounter;
+    adcounter++;
+
+       
+    
+
+    return;
+}
+
+ //</editor-fold>

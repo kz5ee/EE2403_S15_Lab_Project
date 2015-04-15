@@ -35,8 +35,8 @@ void UART1_Config(void){
             __BAUDUART1_ //Baud rate
             ));
     ConfigIntUART1(
-                UART_RX_INT_DIS &        //Receive interrupt enabled
-                UART_RX_INT_PR1 &       //Priority RX interrupt 1
+                UART_RX_INT_EN &        //Receive interrupt enabled
+                UART_RX_INT_PR4 &       //Priority RX interrupt 1
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
