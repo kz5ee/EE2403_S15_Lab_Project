@@ -11,10 +11,12 @@ static int adcounter = 1;
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
+
     
     if(adcounter == 10)         //Have we got 1s worth of samples?
     {
         U2TXREG = 0x13;         //Send command to get the Temp/Press. values
+        //printf("ADC Value:  %d = %f mV  Average:  %.2f   => %.1f MPH\r\n",ADRaw,ADValue,ADAverage,mph);  //Make sure we've got reasonable values
         adcounter = 1;          //Reset the A2D counter
     }
     else
@@ -163,7 +165,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     ADAverage = (ADAverage + ADValue) / (double)adcounter;
     adcounter++;
 
-       printf("ADC Value:  %d = %f mV  Average:  %.2f\r\n",ADRaw,ADValue,ADAverage);
+       
     
 
     return;

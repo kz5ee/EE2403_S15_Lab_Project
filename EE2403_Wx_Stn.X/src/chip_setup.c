@@ -13,7 +13,7 @@
 inline void Timer1_Setup(void)
 {
     OpenTimer1(
-            T1_OFF &
+            T1_ON &
             T1_IDLE_CON &
             T1_GATE_OFF &
             T1_PS_1_8 &
@@ -296,6 +296,6 @@ inline void Timer9_Setup(void)
         UART1_Config();
         //UART2_Config();
         Config_A2D();
-        //Timer2_Setup();
+        Timer1_Setup();
         
     }
