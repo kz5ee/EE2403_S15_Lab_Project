@@ -190,7 +190,7 @@ void UART4_Config(void){
         IEC0bits.SPI1IE = 0; // Disable the interrupt
 
         // SPI setup code for pic24EP512GU810
-        SPI1STATbits.SPIEN = 0;         // Disable SPI 1 for setup
+        SPI1STATbits.SPIEN = 1;         // Enable SPI 1
         SPI1STATbits.SPISIDL=0;         // Operate during IDLE mode
         SPI1STATbits.SPIEN = 0;         // Enable SPI 1 after setup
 
