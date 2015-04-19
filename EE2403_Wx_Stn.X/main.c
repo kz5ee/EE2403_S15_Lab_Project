@@ -35,7 +35,7 @@ _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
 #include <libpic30.h>
 
-
+int __C30_UART = 1;
 int main(int argc, char** argv) {
     //dOSCTUN = 0x15;
 // Configure PLL prescaler, PLL postscaler, PLL divisor
