@@ -55,14 +55,14 @@ int main(int argc, char** argv) {
     //UART2_Config();
 
     TRISFbits.TRISF3 = 0;
-       
+    LATFbits.LATF3 = 1;
     ChipInitialize();
+
     printf("Weather station version 0.7\r\n");
 
     while(1)
     {
-        __delay_ms(1000);
-        LATFbits.LATF3 ^= 1;
+        Nop();
         //printf("Timer2 value is:  %d\r\n",TMR2);
         
     }

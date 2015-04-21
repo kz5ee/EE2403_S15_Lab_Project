@@ -24,7 +24,7 @@ extern BYTE_VAL Flags;
 
 
 extern int ADRaw;
-extern double ADValue,ADAverage;
+extern double ADValue,ADAverage,ADTest;
 //extern char U1RXDat[80];
 
 

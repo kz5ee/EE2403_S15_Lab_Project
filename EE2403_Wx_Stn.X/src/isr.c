@@ -12,11 +12,14 @@ void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
 
-    
+    double mph;
+    //printf("%.2f\r\n",ADAverage);
+
     if(adcounter == 50)         //Have we got 5s worth of samples?
     {
         //U2TXREG = 0x13;         //Send command to get the Temp/Press. values
-        //printf("ADC Value:  %d = %f mV  Average:  %.2f   => %.1f MPH\r\n",ADRaw,ADValue,ADAverage,mph);  //Make sure we've got reasonable values
+        mph = ADAverage / 22;
+       // printf("ADC Value:  %f mV -> %.2f  Average:  %.2f   => %.1f MPH\r\n",ADValue,(ADTest / adcounter),ADAverage,mph);  //Make sure we've got reasonable values
         adcounter = 1;          //Reset the A2D counter
     }
     else
@@ -98,7 +101,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 {
         //static int count =0;
     _U1RXIF = 0;
-    printf("U1\r\n");
+    //printf("U1\r\n");
     char received;
     received = U1RXREG;
     U1TXREG = received;
@@ -110,7 +113,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     
 
     
-    if (received == 0x60)
+    if (received == 0x1b)
     {
         U2TXREG = 0x13;
         printf("Command Sent\r\n");
@@ -163,6 +166,8 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
         
     ADRaw = ADC1BUF0;
     ADValue = (((ADRaw / 4096.0)*(2.042))* 1000) - 400;
+
+    ADTest = ADAverage + ADValue;
     
     ADAverage = (ADAverage + ADValue) / (double)adcounter;
     adcounter++;
