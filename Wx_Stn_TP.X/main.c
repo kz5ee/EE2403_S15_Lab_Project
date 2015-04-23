@@ -54,19 +54,14 @@ int main(void)
     OSCCONbits.SPLLEN = 0;      // PLL Disabled
     OSCCONbits.IRCF = 0b1101;   // Use 4MHz HF
 
-    ANSELAbits.ANSA1 = 0;
-    ANSELAbits.ANSA0 = 0;
-
     TRISAbits.TRISA5 = 0;   // Set pin 2 as an output for LED
-    TRISAbits.TRISA1 = 0;
-    TRISAbits.TRISA0 = 1;
 
     TRISAbits.TRISA4 = 1;   // Set pin 3 as an input for Pressure Sensor
     ANSELAbits.ANSA4 = 1;   // Set pin 3 as an analog input
     //WPUAbits.WPUA4 = 0;     // Disable weak pull-up on pin 3
 
-    TRISAbits.TRISA2 = 1;   // Set pin 1 as an input for Temperature Sensor
-    ANSELAbits.ANSA2 = 1;   // Set pin 1 as an analog input
+    TRISBbits.TRISB5 = 1;   // Set pin 11 as an input for Temperature Sensor
+    ANSELBbits.ANSB5 = 1;   // Set pin 11 as an analog input (AN7)
     //WPUAbits.WPUA2 = 0;     // Disable weak pull-up on pin 11
 
 
@@ -102,8 +97,6 @@ int main(void)
 
     // Fill in Pressure and Temperature Tables
 
-    //printf("Alive\r\n");
-
     while(1){// Start While Loop of Constant Operation
         //LATAbits.LATA5 = !LATAbits.LATA5;
         char received;
@@ -117,12 +110,8 @@ int main(void)
            if (received == 0x13){ // Begin Conversion/Transmission Loop
             // Convert Pressure and Temperature, then transmit results
 
-               // LATAbits.LATA1 ^= 1;
-
             // ADC on Pressure
-                TRISAbits.TRISA2 = 0;
-                TRISAbits.TRISA4 = 1;
-                ADCON0bits.CHS = 0b00100;       // Set channel for pressure sensor input
+                ADCON0bits.CHS = 0b00111;       // Set channel for pressure sensor input (AN7)
                 ADCON0bits.GO = 1;              // Start a conversion
                 while(ADCON0bits.GO){}          // Wait for conversion to complete
 
@@ -133,28 +122,15 @@ int main(void)
                 //Pressure = ((256*PressureH*Pmin)+(PressureL*Pmin))+Pbase;
 //                
             // ADC on Temperature
-                TRISAbits.TRISA4 = 0;
-                TRISAbits.TRISA2 = 1;
-                ADCON0bits.CHS = 0b00010;       // Set channel for temperature sensor input
+                ADCON0bits.CHS = 0b00010;       // Set channel for temperature sensor input (AN2)
                 ADCON0bits.GO = 1;              // Start a conversion
                 while(ADCON0bits.GO){}          // Wait for conversion to complete
                                 
                 TemperatureRaw = ((ADRESH << 8) | ADRESL);
                 Temperature = ((TemperatureRaw / 1024.0) * 5);
 
-                
-                
-                
                 /*In order to get this to compile with the printf and doing stuff with the A2D values,
                 I had to activate the 60-day trial of the PRO edition.*/
-
-
-
-
-
-                //printf("%.2f   %.2f\r\n",Temperature,Pressure);
-
-                //printf("%2X", received);
 
                 printf("*TP,%.2f,%.2f,$\r\n",Temperature,Pressure);
             
@@ -163,6 +139,6 @@ int main(void)
             }   // End Conversion/Transmission Loop
                
     } // End While Loop of Constant Operation
-    return (EXIT_SUCCESS);
+    return (EXIT_SUCCESS);  //Should not get here.
 }
     
