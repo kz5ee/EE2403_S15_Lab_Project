@@ -102,9 +102,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
         //static int count =0;
     _U1RXIF = 0;
     //printf("U1\r\n");
-    char received;
-    received = U1RXREG;
-    U1TXREG = received;
+    char debug_received;
+    debug_received = U1RXREG;
+    U1TXREG = debug_received;
 //    U1RXDat[count] = received;
 //    count++;
 
@@ -113,10 +113,10 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     
 
     
-    if (received == 0x1b)
+    if (debug_received == 0x1b)
     {
         U2TXREG = 0x13;
-        printf("Command Sent\r\n");
+        //printf("Command Sent\r\n");
     }
 
     //printf("%s \r\n",U1RXDat);
@@ -129,10 +129,10 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     _U2RXIF = 0;
     //printf("U2\r\n");
 
-    char received;
-    received = U2RXREG;
+    char tpmodule_received;
+    tpmodule_received = U2RXREG;
 
-    printf("%c",received);
+    printf("%c",tpmodule_received);
 
     return;
 }
