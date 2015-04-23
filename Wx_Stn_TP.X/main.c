@@ -10,6 +10,7 @@
 #include <GenericTypeDefs.h>
 #include <xc.h>
 
+
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
 // CONFIG1
@@ -32,8 +33,8 @@
 
 int TemperatureRaw;
 int PressureRaw;
-float Temperature;
-float Pressure;
+double Temperature;
+double Pressure;
 
 //float Pmin = 0.032920078;
 //float Pbase = 16.37336172;
@@ -53,19 +54,27 @@ int main(void)
     OSCCONbits.SPLLEN = 0;      // PLL Disabled
     OSCCONbits.IRCF = 0b1101;   // Use 4MHz HF
 
+    ANSELAbits.ANSA1 = 0;
+    ANSELAbits.ANSA0 = 0;
+
     TRISAbits.TRISA5 = 0;   // Set pin 2 as an output for LED
+    TRISAbits.TRISA1 = 0;
+    TRISAbits.TRISA0 = 1;
 
     TRISAbits.TRISA4 = 1;   // Set pin 3 as an input for Pressure Sensor
     ANSELAbits.ANSA4 = 1;   // Set pin 3 as an analog input
     //WPUAbits.WPUA4 = 0;     // Disable weak pull-up on pin 3
 
-    TRISAbits.TRISA2 = 1;   // Set pin 11 as an input for Temperature Sensor
-    ANSELAbits.ANSA2 = 1;   // Set pin 11 as an analog input
+    TRISAbits.TRISA2 = 1;   // Set pin 1 as an input for Temperature Sensor
+    ANSELAbits.ANSA2 = 1;   // Set pin 1 as an analog input
     //WPUAbits.WPUA2 = 0;     // Disable weak pull-up on pin 11
 
+
+    ANSELBbits.ANSB1 = 0;    //Set RB1 as digital
     APFCON0bits.RXDTSEL = 0; // Set RX to RB1
     TRISBbits.TRISB1 = 1;   // Set pin 7 as an input for UART
 
+    ANSELBbits.ANSB2 = 0;   //Set RB2 as digital
     APFCON1bits.TXCKSEL = 0; // Set TX to RB2
     TRISBbits.TRISB2 = 0;   // Set pin 8 as an output for UART
 
@@ -93,18 +102,27 @@ int main(void)
 
     // Fill in Pressure and Temperature Tables
 
+    //printf("Alive\r\n");
+
     while(1){// Start While Loop of Constant Operation
         //LATAbits.LATA5 = !LATAbits.LATA5;
+        char received;
         
             // Check for request from UART
             // Check RX flag for something in the buffer
-                while(!RCIF){}  // If nothing in the FIFO, wait longer
-        
-            if(RCREG == 0x13){ // Begin Conversion/Transmission Loop
+           while(!RCIF){}  // If nothing in the FIFO, wait longer
+
+            received = RCREG;
+            
+           if (received == 0x13){ // Begin Conversion/Transmission Loop
             // Convert Pressure and Temperature, then transmit results
 
+               // LATAbits.LATA1 ^= 1;
+
             // ADC on Pressure
-                ADCON0bits.CHS = 0b00011;       // Set channel for pressure sensor input
+                TRISAbits.TRISA2 = 0;
+                TRISAbits.TRISA4 = 1;
+                ADCON0bits.CHS = 0b00100;       // Set channel for pressure sensor input
                 ADCON0bits.GO = 1;              // Start a conversion
                 while(ADCON0bits.GO){}          // Wait for conversion to complete
 
@@ -115,6 +133,8 @@ int main(void)
                 //Pressure = ((256*PressureH*Pmin)+(PressureL*Pmin))+Pbase;
 //                
             // ADC on Temperature
+                TRISAbits.TRISA4 = 0;
+                TRISAbits.TRISA2 = 1;
                 ADCON0bits.CHS = 0b00010;       // Set channel for temperature sensor input
                 ADCON0bits.GO = 1;              // Start a conversion
                 while(ADCON0bits.GO){}          // Wait for conversion to complete
@@ -132,21 +152,16 @@ int main(void)
 
 
 
+                //printf("%.2f   %.2f\r\n",Temperature,Pressure);
 
+                //printf("%2X", received);
 
-                printf("*TP,%.2f,%.2f,$",Temperature,Pressure);
+                printf("*TP,%.2f,%.2f,$\r\n",Temperature,Pressure);
             
                 
                 
             }   // End Conversion/Transmission Loop
-                if(RCREG == 0x11)
-                {
-
-                }
-                if(RCREG == 0x12)
-                {
-
-                }
+               
     } // End While Loop of Constant Operation
     return (EXIT_SUCCESS);
 }
