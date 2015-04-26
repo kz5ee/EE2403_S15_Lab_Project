@@ -3,14 +3,30 @@
 
 #include <stdio.h>
 #include <p24Exxxx.h>
+#include "../inc/globals.h"
 
+static int adcounter = 1;
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
-    
-    
+
+    double mph;
+    //printf("%.2f\r\n",ADAverage);
+
+    if(adcounter == 50)         //Have we got 5s worth of samples?
+    {
+        //U2TXREG = 0x13;         //Send command to get the Temp/Press. values
+        mph = ADAverage / 22;
+       // printf("ADC Value:  %f mV -> %.2f  Average:  %.2f   => %.1f MPH\r\n",ADValue,(ADTest / adcounter),ADAverage,mph);  //Make sure we've got reasonable values
+        adcounter = 1;          //Reset the A2D counter
+    }
+    else
+    {
+        AD1CON1bits.SAMP = 1;   //We want to get an A2D sample
+    }
+
     return;
 }
 
@@ -83,8 +99,27 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 //<editor-fold defaultstate="collapsed" desc="UART RX Interrupts">
     void __attribute__((interrupt,auto_psv)) _ISR _U1RXInterrupt(void)
 {
+        //static int count =0;
     _U1RXIF = 0;
+    //printf("U1\r\n");
+    char debug_received;
+    debug_received = U1RXREG;
+    U1TXREG = debug_received;
+//    U1RXDat[count] = received;
+//    count++;
 
+    
+    //printf("U1RX Fired\r\n");
+    
+
+    
+    if (debug_received == 0x1b)
+    {
+        U2TXREG = 0x13;
+        //printf("Command Sent\r\n");
+    }
+
+    //printf("%s \r\n",U1RXDat);
 
     return;
 }
@@ -92,7 +127,12 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U2RXInterrupt(void)
 {
     _U2RXIF = 0;
+    //printf("U2\r\n");
 
+    char tpmodule_received;
+    tpmodule_received = U2RXREG;
+
+    printf("%c",tpmodule_received);
 
     return;
 }
@@ -118,3 +158,24 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 }
 #endif
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="ADC Interrupt">
+       void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
+{
+    _AD1IF = 0;
+        
+    ADRaw = ADC1BUF0;
+    ADValue = (((ADRaw / 4096.0)*(2.042))* 1000) - 400;
+
+    ADTest = ADAverage + ADValue;
+    
+    ADAverage = (ADAverage + ADValue) / (double)adcounter;
+    adcounter++;
+
+       
+    
+
+    return;
+}
+
+ //</editor-fold>

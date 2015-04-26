@@ -16,10 +16,9 @@ extern "C" {
 #include <Generic.h>
 #include <uart.h>
 #include <spi.h>
-#include <i2c.h>
 #include <pps.h>
 
-#define __FOSC_ 140000000
+#define __FOSC_ 7370000
 #define __FTCY_ (__FOSC_/2)
 
     //<editor-fold defaultstate="collapsed" desc="UART Configuration">
@@ -31,7 +30,7 @@ extern void UART1_Config(void);
 
 #ifdef _U2RXIF
 
-#define __U2BAUD_ 2400L //Desired baud rate UART2 CHANGE THIS
+#define __U2BAUD_ 9600L //Desired baud rate UART2 CHANGE THIS
 #define __BAUDUART2_ ((__FTCY_/(16*__U2BAUD_))-1)
 
 extern void UART2_Config(void);
@@ -56,12 +55,6 @@ extern void UART3_Config(void);
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="SPI Configuration">
-
-
-
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="I2C Configuration">
 
 
 
