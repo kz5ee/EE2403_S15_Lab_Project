@@ -2,12 +2,43 @@
  * File:   globals.h
  * Author: Mike
  *
+<<<<<<< HEAD
+ * Created on February 25, 2015, 12:13 PM
+=======
  * Created on April 8, 2015, 11:08 AM
+>>>>>>> 25b9476703b708b4a18d91082ed150be80f59191
  */
 
 #ifndef GLOBALS_H
 #define	GLOBALS_H
 
+<<<<<<< HEAD
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
+#include <Generic.h>
+
+    typedef enum
+    {
+        PRESSTEMP = 0,
+                GPS = 1,
+                FREE = 2
+    }_UBUFFER;
+
+    extern _UBUFFER UARTBUFFER;
+
+//extern DWORD_VAL Flags;
+
+
+
+
+
+
+#ifdef	__cplusplus
+}
+#endif
+=======
 #include <string.h>
 #include <Generic.h>
 
@@ -29,6 +60,7 @@ extern double ADValue,ADAverage,ADTest;
 
 
 
+>>>>>>> 25b9476703b708b4a18d91082ed150be80f59191
 
 #endif	/* GLOBALS_H */
 

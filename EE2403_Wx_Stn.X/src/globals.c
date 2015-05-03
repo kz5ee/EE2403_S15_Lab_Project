@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+
+
+
+#include "../inc/globals.h"
+
+
+//DWORD_VAL Flags;
+_UBUFFER UARTBUFFER;
+
+void InitGlobals(void)
+{
+//    Flags.Val = 0;
+    UARTBUFFER = FREE;
+
+    return;
+}
+=======
 #include "../inc/globals.h"
 
 
@@ -18,3 +36,4 @@ void InitGlobals(void)
 
     return;
 }
+>>>>>>> 25b9476703b708b4a18d91082ed150be80f59191
