@@ -19,27 +19,12 @@ extern "C" {
 #define GPSBUFMAXSIZE           80
 #define MAXRINGBUFSIZE          32
 
+extern UINT8 UartRingBuffer[GPSBUFMAXSIZE];
 
-typedef enum
-{
-    Good = 0,
-            BufferFull
-}BuffStatus;
+extern void RngAdd(UINT8);
+extern S16 RngGet(UINT16 *);
+extern UINT16 RngDataUsed(UINT16*);
 
-extern BuffStatus AddtoBuffer(char);
-extern char ReadfromBuffer(void);
-extern int FreeSpace(void);
-extern void ShowBuffer(void);
-extern void InitBuffer(void);
-extern void ClearBuffer(void);
-
-
-extern char buffer[];
-#define FIRST_POINTER   &buffer[0]
-#define LAST_POINTER    &buffer[MAX_BUFFER-1]
-
-extern char *head;
-extern char *tail;
 
 #ifdef	__cplusplus
 }

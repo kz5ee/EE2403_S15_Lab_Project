@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <p24Exxxx.h>
+#include "../inc/buffers.h"
 #include "../inc/globals.h"
 
 
@@ -86,6 +87,8 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 {
     _U1RXIF = 0;
 
+    char db_received;
+    db_received = U1RXREG;
 
     return;
 }
@@ -93,9 +96,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U2RXInterrupt(void)
 {
     _U2RXIF = 0;
-    char recieved;
+    char tp_received;
+    tp_received = U2RXREG;
 
-    U2RXBUFF = 1;
 
     return;
 }
@@ -105,9 +108,11 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U3RXInterrupt(void)
 {
     _U3RXIF = 0;
-    char recieved;
+    char gps_received;
+    gps_received = U3RXREG;
 
-    U3RXBUFF = 1;
+
+
 
 
     return;
@@ -118,9 +123,8 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U4RXInterrupt(void)
 {
     _U4RXIF = 0;
-    char recieved;
+   
 
-    U4RXBUFF = 1;
 
 
     return;
