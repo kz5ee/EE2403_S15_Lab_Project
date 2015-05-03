@@ -1,4 +1,8 @@
+#include <stdio.h>
+#include <p24Exxxx.h>
+#include <pps.h>
 #include "../inc/Comms.h"
+
 
 //<editor-fold defaultstate="collapsed" desc="UART Configuration">
 void UART1_Config(void){
@@ -32,10 +36,21 @@ void UART1_Config(void){
             ));
     ConfigIntUART1(
                 UART_RX_INT_EN &        //Receive interrupt enabled
-                UART_RX_INT_PR1 &       //Priority RX interrupt 1
+                UART_RX_INT_PR4 &       //Priority RX interrupt 1
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
+
+
+
+    
+    TRISFbits.TRISF4 = 1;               //Set UART1 RX as input
+    TRISFbits.TRISF5 = 0;               //Set UART1 TX as output
+
+    PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RP100);
+    PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP101);
+
+    printf("UART1 Configured.\r\n");
 }
 
 #ifdef _U2RXIF
@@ -74,6 +89,14 @@ void UART2_Config(void){
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
+
+    TRISFbits.TRISF2 = 0;               //Set UART2 RX as input
+    TRISFbits.TRISF8 = 1;               //Set UART2 TX as output
+
+    PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RP104);
+    PPSOutput(OUT_FN_PPS_U2TX, OUT_PIN_PPS_RP98);
+
+    printf("UART2 Configured.\r\n");
 }
 #endif
 
@@ -113,6 +136,8 @@ void UART3_Config(void){
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
+
+    printf("UART3 Configured.\r\n");
 }
 #endif
 
@@ -152,6 +177,8 @@ void UART4_Config(void){
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
+
+    printf("UART4 Configured.\r\n");
 }
 #endif
 //</editor-fold>
