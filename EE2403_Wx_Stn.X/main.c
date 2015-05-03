@@ -27,27 +27,11 @@ _FAS(AWRP_OFF & APL_OFF & APLK_OFF)
 
 
 int main(int argc, char** argv) {
-    void Ludacris_Speed_GO(void); //Function to set FOSC=140MHz
-    Ludacris_Speed_GO();
+    
 
 
 
 
 
     return (EXIT_SUCCESS);
-}
-
-inline void Ludacris_Speed_GO(void)
-{
-    // Configure PLL prescaler, PLL postscaler, PLL divisor
-PLLFBD=74; // M=76
-CLKDIVbits.PLLPOST=0; // N2=2
-CLKDIVbits.PLLPRE=1; // N1=3
-// Initiate Clock Switch to FRC oscillator with PLL (NOSC=0b001)
-__builtin_write_OSCCONH(0x01);
-__builtin_write_OSCCONL(OSCCON | 0x01);
-// Wait for Clock switch to occur
-while (OSCCONbits.COSC!= 0b001);
-// Wait for PLL to lock
-while (OSCCONbits.LOCK!= 1);
 }
