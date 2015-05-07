@@ -22,7 +22,7 @@ extern "C" {
 extern UINT8 UartRingBuffer[GPSBUFMAXSIZE];
 
 extern void RngAdd(UINT8);
-extern S16 RngGet(UINT16 *);
+extern S16 RngGet(volatile UINT16 *);
 extern UINT16 RngDataUsed(UINT16*);
 
 

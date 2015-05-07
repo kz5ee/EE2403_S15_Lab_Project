@@ -10,6 +10,7 @@
       <itemPath>inc/buffers.h</itemPath>
       <itemPath>inc/types.h</itemPath>
       <itemPath>inc/globals.h</itemPath>
+      <itemPath>inc/gps.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -24,6 +25,7 @@
       <itemPath>src/isr.c</itemPath>
       <itemPath>src/buffers.c</itemPath>
       <itemPath>src/globals.c</itemPath>
+      <itemPath>src/gps.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

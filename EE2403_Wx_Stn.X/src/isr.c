@@ -108,12 +108,8 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U3RXInterrupt(void)
 {
     _U3RXIF = 0;
-    char gps_received;
-    gps_received = U3RXREG;
 
-
-
-
+    RngAdd(U3RXREG);
 
     return;
 }

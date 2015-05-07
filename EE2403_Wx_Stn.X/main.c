@@ -11,6 +11,7 @@
 #include "inc/Comms.h"
 #include "inc/timers.h"
 #include "inc/buffers.h"
+#include "inc/gps.h"
 
 /*
  * Words of Power (Configuration Words)
