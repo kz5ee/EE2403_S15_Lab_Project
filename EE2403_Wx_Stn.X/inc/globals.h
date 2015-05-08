@@ -55,7 +55,7 @@ extern BYTE_VAL Flags;
 
 extern int ADRaw;
 extern double ADValue,ADAverage,ADTest;
-extern void ftoa(float, char*, int);
+extern void dtoa(double, char*);
 
 
 #endif	/* GLOBALS_H */

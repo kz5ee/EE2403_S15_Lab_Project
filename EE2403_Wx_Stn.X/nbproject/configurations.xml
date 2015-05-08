@@ -11,6 +11,7 @@
       <itemPath>inc/types.h</itemPath>
       <itemPath>inc/globals.h</itemPath>
       <itemPath>inc/gps.h</itemPath>
+      <itemPath>inc/chip_setup.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -33,6 +34,9 @@
       <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
+  <sourceRootList>
+    <Elem>inc</Elem>
+  </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
     <conf name="default" type="2">

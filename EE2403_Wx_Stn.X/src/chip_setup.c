@@ -295,6 +295,7 @@ inline void Timer9_Setup(void)
         //PPS_Config();
         UART1_Config();
         UART2_Config();
+        UART3_Config();
         Config_A2D();
         Timer1_Setup();
         

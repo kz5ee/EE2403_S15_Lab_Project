@@ -14,6 +14,8 @@ extern "C" {
 
 #include <Generic.h>
 #include "types.h"
+#include "globals.h"
+
 #define GetGPSChar    RngGet(&GPSIndex)
 
     extern char NMEACSV[80];
@@ -28,8 +30,9 @@ extern "C" {
 
     extern UINT8 TokenizeGpsSentence(char *, char **);
     extern void ParseGGA(char **);
-    extern void ParseDegMin(double);
+    extern void ParseDegMin(double, double);
     extern void PullGPSSentence(char *);
+    extern void SuppressGPS(void);
 
 
 

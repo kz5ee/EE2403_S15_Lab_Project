@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <libpic30.h>
 #include <math.h>
 #include "../inc/globals.h"
 
@@ -6,12 +7,15 @@
 int ADRaw;
 double ADValue,ADAverage,ADTest;
 BYTE_VAL Flags;
+//int __C30_UART;
 void InitGlobals(void)
 {
     ADRaw = 0;
     ADValue = 0.0;
     ADTest = 0.0;
     Flags.Val = 0;
+
+    //__C30_UART = 1;
 
     return;
 }

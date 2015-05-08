@@ -2,7 +2,9 @@
 #include <Generic.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <libpic30.h>
 #include <string.h>
+
 #include "../inc/globals.h"
 #include "../inc/buffers.h"
 #include "../inc/gps.h"
@@ -14,7 +16,7 @@ char *token[15];
 float Timestamp, Latitude, Longitude, HDOP, Altitude, GEOID, LatMin, LonMin;
 int Quality, NumSats, LatDeg, LonDeg;
 char LatHemi, LonHemi, AUnits, GUnits;
-char strchecksum[3];
+char strchecksum[3], LatStr[13], LonStr[13];
 volatile UINT16 GPSIndex;
 S16 TempChar;
 
@@ -52,9 +54,6 @@ void ParseGGA(char **toks)
 {
     int	TokenIndex;
 
-	//	RetVal = SID_GPGGA;
-	//	strtok(instr,",\r\n");			// Skip the sentence type
-	//	nxprintf("-");
 	TokenIndex = 1;
 	if (sscanf(toks[TokenIndex++],"%f",&Timestamp) != 1) Timestamp = 0.0;			// Time
 	if (sscanf(toks[TokenIndex++],"%f",&Latitude) != 1) Latitude = 0.0;				// Lat
@@ -70,11 +69,66 @@ void ParseGGA(char **toks)
 	if (sscanf(toks[TokenIndex++],"%c",&GUnits) != 1) GUnits = 0.0;			// geoid units (m)
 
 
-	return;	// Returns Sentence Type (SID_) or -1 if not valid.
+	return;	
 }
 
-void ParseDegMin(double LatLong)
+void ParseDegMin(double Lat, double Lon)
 {
+   int i= 0, j =0, size;
+    char ladeg[3], lodeg[3], lamin[10], lomin[10];
+    
+    dtoa(Lat, LatStr);
+    dtoa(Lon, LonStr);
+    
+    size = sizeof(LatStr);
+    
+    for(i=0; i<sizeof(LatStr); i++)
+    {
+        if(i < 2)
+        {
+            ladeg[i] = LatStr[i];
+        }
+        if(i == 1)
+        {
+            ladeg[(i + 1)] = '\0';
+        }
+        if((i >= 1) && (LatStr[i + 1] != EOF))
+        {
+            lamin[j++] = LatStr[i + 1];
+        }
+        if(i == (sizeof(LatStr) -1))
+        {
+            lamin[j] = '\0';
+        }
+    }
+    
+    LatDeg = atoi(ladeg);
+    LatMin = atof(lamin);
+
+    for(i=0; i<sizeof(LonStr); i++)
+    {
+        if(i < 2)
+        {
+            lodeg[i] = LonStr[i];
+        }
+        if(i == 1)
+        {
+            lodeg[(i + 1)] = '\0';
+        }
+        if((i >= 1) && (LonStr[i + 1] != EOF))
+        {
+            lomin[j++] = LonStr[i + 1];
+        }
+        if(i == (sizeof(LonStr) -1))
+        {
+            lomin[j] = '\0';
+        }
+    }
+
+    LonDeg = atoi(lodeg);
+    LonMin = atof(lomin);
+
+
 
     return;
 }
@@ -120,5 +174,21 @@ void PullGPSSentence(char *NMEASentence)
     { strcpy(NMEASentence, Sentence); }
 
     return;
-}   
+}
+
+void SuppressGPS(void)
+{
+    char KillGSV[31], KillGLL[31], KillGSA[31], KillRMC[31];
+    /*
+     * We only want GGA
+     * Suppress GSV, GLL, GSA, RMC, and VTG
+     */
+    printf("$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
+    printf("$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
+    printf("$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
+    printf("$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
+    printf("$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
+
+    
+}
     
