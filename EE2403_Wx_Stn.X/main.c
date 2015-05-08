@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
     LATFbits.LATF3 = 1;
 
     ChipInitialize();
-    //SuppressGPS();
+    SuppressGPS();
     //__C30_UART = 1;
 
     //U3TXREG = 0x30;
@@ -45,8 +45,20 @@ int main(int argc, char** argv) {
 
     while(1)
     {
-        if (U2STAbits.FERR)
-        { printf("Framing Error on UART2\r\n"); }
+        if (U3STAbits.FERR)
+        { printf("Framing Error on UART3\r\n"); }
+        
+        if (U3STAbits.OERR)
+        { printf("Overrun error on UART3\r\n"); }
+        
+//        while(BusyUART3());
+//        WriteUART3(0x4d);
+//        while(BusyUART3());
+//        WriteUART3(0x0d);
+//        while(BusyUART3());
+//        WriteUART3(0x0a);
+
+
     }
 
 

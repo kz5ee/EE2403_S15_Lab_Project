@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <libpic30.h>
 #include <string.h>
+#include <uart.h>
 
 #include "../inc/globals.h"
 #include "../inc/buffers.h"
@@ -19,6 +20,8 @@ char LatHemi, LonHemi, AUnits, GUnits;
 char strchecksum[3], LatStr[13], LonStr[13];
 volatile UINT16 GPSIndex;
 S16 TempChar;
+
+//int __C30_UART = 1;
 
 UINT8 TokenizeGpsSentence(char *NMEASentence, char **tok)
 {
@@ -178,16 +181,103 @@ void PullGPSSentence(char *NMEASentence)
 
 void SuppressGPS(void)
 {
-    char KillGSV[31], KillGLL[31], KillGSA[31], KillRMC[31];
+    char KillGSV[31], KillGLL[31], KillGSA[31], KillRMC[31], KillVTG[31] ;
+    int i = 0;
     /*
      * We only want GGA
      * Suppress GSV, GLL, GSA, RMC, and VTG
      */
-    printf("$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
-    printf("$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
-    printf("$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
-    printf("$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
-    printf("$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
+
+
+        strcpy(KillGSV,"$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
+        strcpy(KillGSA,"$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
+        strcpy(KillRMC,"$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
+        strcpy(KillGLL,"$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
+        strcpy(KillVTG,"$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
+
+//    sprintf(KillGLL, "$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
+//    sprintf(KillGSA, "$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
+//    sprintf(KillRMC, "$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
+//    sprintf(KillVTG, "$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
+    
+    do
+    {
+        if(KillGSV[i] != '\0')
+        {
+            while(BusyUART3());
+            WriteUART3(KillGSV[i++]);
+        }
+
+    }while(KillGSV[i] != '\0');
+    
+    i = 0;
+
+    do
+    {
+        if(KillGLL[i] != '\0')
+        {
+            while(BusyUART3());
+            WriteUART3(KillGLL[i++]);
+        }
+
+    }while(KillGLL[i] != '\0');
+    
+    i = 0;
+
+    do
+    {
+        if(KillGSA[i] != '\0')
+        {
+            while(BusyUART3());
+            WriteUART3(KillGSA[i++]);
+        }
+
+    }while(KillGSA[i] != '\0');
+
+    i = 0;
+
+    do
+    {
+        if(KillRMC[i] != '\0')
+        {
+            while(BusyUART3());
+            WriteUART3(KillRMC[i++]);
+        }
+
+    }while(KillRMC[i] != '\0');
+
+    i = 0;
+
+    do
+    {
+        if(KillVTG[i] != '\0')
+        {
+            while(BusyUART3());
+            WriteUART3(KillVTG[i++]);
+        }
+
+    }while(KillVTG[i] != '\0');
+//
+//    i = 0;
+
+//    do
+//    {
+//        if(KillGLL[i] != '\0')
+//        {
+//            while(BusyUART3());
+//            WriteUART3(KillGLL[i++]);
+//        }
+//
+//    }while(KillGLL[i] != '\0');
+
+
+
+
+//    printf("$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
+//    printf("$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
+//    printf("$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
+//    printf("$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
+//    printf("$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
 
     
 }

@@ -43,7 +43,7 @@ void UART1_Config(void){
 
 
 
-    
+
     TRISFbits.TRISF4 = 1;               //Set UART1 RX as input
     TRISFbits.TRISF5 = 0;               //Set UART1 TX as output
 
