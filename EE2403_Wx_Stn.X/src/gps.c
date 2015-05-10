@@ -12,7 +12,6 @@
 #include "../inc/gps.h"
 
 
-//char NMEACSV[80] = "GPGGA,195219.00,3239.20585,N,09707.18976,W,1,09,1.05,197.0,M,-25.0,M,,";
 char NMEACSV[80] = "\0";
 char *token[15];
 
@@ -75,19 +74,6 @@ void ParseGGA(char **toks)
 	if (sscanf(toks[TokenIndex++],"%f",&GEOID) != 1) GEOID = 0.0;			// Height of geoid
 	if (sscanf(toks[TokenIndex++],"%c",&GUnits) != 1) GUnits = 0.0;			// geoid units (m)
 
-//        printf("Timestamp:  %f\r\n", Timestamp);
-//	printf("Latitude:  %f\r\n", Latitude);
-//	printf("LatHemi:  %c\r\n", LatHemi);
-//	printf("Longitude:  %f\r\n", Longitude);
-//	printf("LonHemi:  %c\r\n", LonHemi);
-//	printf("Quality:  %d\r\n", Quality);
-//	printf("NumSats:  %d\r\n", NumSats);
-//	printf("HDOP:  %f\r\n", HDOP);
-//	printf("Altitude:  %f\r\n", Altitude);
-//	printf("AUnits:  %c\r\n", AUnits);
-//	printf("GEOID:  %f\r\n", GEOID);
-//	printf("GUnits:  %c\r\n", GUnits);
-
 
 	return;	
 }
@@ -124,12 +110,10 @@ void ParseDegMin(double Lat, double Lon)
         }
     }
 
-    //printf("Latstr:  %s %s\r\n", ladeg, lamin);
 
     LatDeg = atoi(ladeg);
     LatMin = atof(lamin);
 
-    //printf("Lat:  %d %f\r\n", LatDeg, LatMin);
 
     j = 0;
 
@@ -153,12 +137,10 @@ void ParseDegMin(double Lat, double Lon)
         }
     }
 
-    //printf("Lonstr:  %s %s\r\n", lodeg, lomin);
 
     LonDeg = atoi(lodeg);
     LonMin = atof(lomin);
 
-    //printf("Lon:  %d %f\r\n", LonDeg, LonMin);
 
     return;
 }
@@ -174,7 +156,6 @@ void PullGPSSentence(char *NMEASentence)
 
         if(Temp == EOF)
         { break; }
-        //U1TXREG = Temp;
 
         if((char)Temp == '$')
         { i = 0; }
@@ -204,12 +185,7 @@ void PullGPSSentence(char *NMEASentence)
 
     }while(((char)Temp != '$') || ((char)Temp != EOF));
 
-    //printf("%s\r\n", Sentence);
-
     sprintf(NMEASentence, "%s", Sentence);
-
-    //strcpy(NMEASentence, Sentence);
-    //printf("%s\r\n", NMEASentence)
 
     return;
 }
@@ -306,7 +282,6 @@ double DegMinToDeg(double degmin)
 	deg1 *= 100;						// d1 = minutes
 	deg1 /= 60;						// d1 = fractional degrees
 
-        //printf("D1 = %lf D2 = %lf\r\n", d1, d2);
 	return (deg2 + deg1);				// Degrees plus fractional degrees.
 }
     

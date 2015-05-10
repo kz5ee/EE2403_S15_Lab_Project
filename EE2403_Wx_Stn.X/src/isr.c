@@ -8,7 +8,6 @@
 #include "../inc/gps.h"
 
 static int adcounter = 1;
-static int gps_index = 0;
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
@@ -26,7 +25,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
         //printf("%s\r\n",NMEACSV);
         PARSEGPSGGA = 1;
 
-        //T1CONbits.TON = 0;  //Turn off the Timer so we can handle GPS stuff
+        
     }
     else
     {
