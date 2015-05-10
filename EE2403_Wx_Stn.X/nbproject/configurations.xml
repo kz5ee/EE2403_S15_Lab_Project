@@ -12,6 +12,7 @@
       <itemPath>inc/globals.h</itemPath>
       <itemPath>inc/gps.h</itemPath>
       <itemPath>inc/chip_setup.h</itemPath>
+      <itemPath>inc/temp_press.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -27,6 +28,7 @@
       <itemPath>src/buffers.c</itemPath>
       <itemPath>src/globals.c</itemPath>
       <itemPath>src/gps.c</itemPath>
+      <itemPath>src/temp_press.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

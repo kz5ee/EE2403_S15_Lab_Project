@@ -45,7 +45,7 @@ extern BYTE_VAL Flags;
 
 #define GETCHECKSUM     Flags.bits.b0
 #define PARSEGPSGGA     Flags.bits.b1
-#define DEF3            Flags.bits.b2
+#define TPACQUIRED      Flags.bits.b2
 #define DEF4            Flags.bits.b3
 #define DEF5            Flags.bits.b4
 #define DEF6            Flags.bits.b5

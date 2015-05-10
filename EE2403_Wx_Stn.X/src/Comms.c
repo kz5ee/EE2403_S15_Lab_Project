@@ -90,11 +90,11 @@ void UART2_Config(void){
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
 
-    TRISFbits.TRISF2 = 0;               //Set UART2 RX as input
-    TRISFbits.TRISF8 = 1;               //Set UART2 TX as output
+    TRISFbits.TRISF2 = 1;               //Set UART2 RX as input
+    TRISFbits.TRISF8 = 0;               //Set UART2 TX as output
 
-    PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RP104);
-    PPSOutput(OUT_FN_PPS_U2TX, OUT_PIN_PPS_RP98);
+    PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RP98);
+    PPSOutput(OUT_FN_PPS_U2TX, OUT_PIN_PPS_RP104);
 
     //printf("UART2 Configured.\r\n");
 }
