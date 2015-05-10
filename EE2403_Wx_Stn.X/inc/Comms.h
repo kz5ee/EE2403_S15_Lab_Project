@@ -38,7 +38,7 @@ extern void UART2_Config(void);
 #endif
 
 #ifdef _U3RXIF
-#define __U3BAUD_ 2400L //Desired baud rate UART3 CHANGE THIS
+#define __U3BAUD_ 9600L //Desired baud rate UART3 CHANGE THIS
 #define __BAUDUART3_ ((__FTCY_/(16*__U3BAUD_))-1)
 
 extern void UART3_Config(void);

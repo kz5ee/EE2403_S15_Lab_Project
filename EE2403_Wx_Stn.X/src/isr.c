@@ -5,14 +5,33 @@
 #include <p24Exxxx.h>
 #include "../inc/buffers.h"
 #include "../inc/globals.h"
+#include "../inc/gps.h"
 
+static int adcounter = 1;
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
-    
-    
+    //printf("%d \r\n", adcounter);
+
+    if(adcounter == 50)         //Have we got 5s worth of samples?
+    {
+        //U2TXREG = 0x13;         //Send command to get the Temp/Press. values
+        //printf("ADC Value:  %d = %f mV  Average:  %.2f   => %.1f MPH\r\n",ADRaw,ADValue,ADAverage,mph);  //Make sure we've got reasonable values
+        adcounter = 1;          //Reset the A2D counter
+
+        PullGPSSentence(NMEACSV);
+        //printf("%s\r\n",NMEACSV);
+        PARSEGPSGGA = 1;
+
+        
+    }
+    else
+    {
+        AD1CON1bits.SAMP = 1;   //We want to get an A2D sample
+    }
+
     return;
 }
 
@@ -90,6 +109,18 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     char db_received;
     db_received = U1RXREG;
 
+    if (db_received == 0x1b)
+    {
+        U2TXREG = 0x13;
+        printf("DC3 Command Sent\r\n");
+    }
+
+    if(db_received == 0x60)
+    {
+        U3TXREG = 0x14;
+        printf("DC4 Command Sent\r\n");
+    }
+
     return;
 }
 #ifdef _U2RXIF
@@ -98,6 +129,8 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     _U2RXIF = 0;
     char tp_received;
     tp_received = U2RXREG;
+
+    //printf("%c",tp_received);
 
 
     return;
@@ -108,12 +141,14 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     void __attribute__((interrupt,auto_psv)) _ISR _U3RXInterrupt(void)
 {
     _U3RXIF = 0;
+
+    //printf("U3\r\n");
+    
     char gps_received;
     gps_received = U3RXREG;
+    //printf("%c",gps_received);
 
-
-
-
+    RngAdd(gps_received);
 
     return;
 }
@@ -131,3 +166,22 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 }
 #endif
 //</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="ADC Interrupt">
+       void __attribute__((interrupt,auto_psv)) _ISR _AD1Interrupt(void)
+{
+    _AD1IF = 0;
+
+    ADRaw = ADC1BUF0;
+    ADValue = (((ADRaw / 4096.0)*(2.042))* 1000) - 400;
+
+    ADAverage = (ADAverage + ADValue) / (double)adcounter;
+    adcounter++;
+
+
+
+
+    return;
+}
+
+ //</editor-fold>

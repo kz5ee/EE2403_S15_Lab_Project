@@ -27,7 +27,7 @@ inline void Timer1_Setup(void)
                     );
 
 
-    printf("Timer 1 setup\r\n");
+    //printf("Timer 1 setup\r\n");
 }
 
 #ifdef _T2IF
@@ -295,6 +295,7 @@ inline void Timer9_Setup(void)
         //PPS_Config();
         UART1_Config();
         UART2_Config();
+        UART3_Config();
         Config_A2D();
         Timer1_Setup();
         

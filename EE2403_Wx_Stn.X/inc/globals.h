@@ -12,7 +12,6 @@
 #ifndef GLOBALS_H
 #define	GLOBALS_H
 
-<<<<<<< HEAD
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -38,14 +37,14 @@ extern "C" {
 #ifdef	__cplusplus
 }
 #endif
-=======
+
 #include <string.h>
 #include <Generic.h>
 
 extern BYTE_VAL Flags;
 
-#define ADREADY(x)      Flags.bits.b0 = (x)
-#define DEF2            Flags.bits.b1
+#define GETCHECKSUM     Flags.bits.b0
+#define PARSEGPSGGA     Flags.bits.b1
 #define DEF3            Flags.bits.b2
 #define DEF4            Flags.bits.b3
 #define DEF5            Flags.bits.b4
@@ -56,11 +55,8 @@ extern BYTE_VAL Flags;
 
 extern int ADRaw;
 extern double ADValue,ADAverage,ADTest;
-//extern char U1RXDat[80];
+extern void dtoa(double, char *);
 
-
-
->>>>>>> 25b9476703b708b4a18d91082ed150be80f59191
 
 #endif	/* GLOBALS_H */
 
