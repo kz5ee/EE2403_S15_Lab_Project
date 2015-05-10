@@ -144,9 +144,12 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     if(tp_received == '$')
     {
         TPString[tpcounter] = '\0';
+        TPACQUIRED = 1;
+        //printf("%s\r\n",TPString);
+        tpcounter = 0;
     }
 
-
+    
 
 
     return;

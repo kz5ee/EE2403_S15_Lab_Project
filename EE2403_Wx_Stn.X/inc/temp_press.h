@@ -15,6 +15,7 @@ extern "C" {
 #include <Generic.h>
     
     extern char TPString[16];
+    extern char *TPTokens[10];
     extern double Pressure, Temperature;
 
     extern void ParseTP(char **);

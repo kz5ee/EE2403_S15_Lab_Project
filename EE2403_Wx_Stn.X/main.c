@@ -15,6 +15,7 @@
 #include "inc/timers.h"
 #include "inc/buffers.h"
 #include "inc/gps.h"
+#include "inc/temp_press.h"
 
 /*
  * Words of Power (Configuration Words)
@@ -68,6 +69,12 @@ int main(int argc, char** argv) {
 
             //T1CONbits.TON = 1;
 
+        }
+        if(TPACQUIRED == 1)
+        {
+            TokenizeTP(TPString, TPTokens);
+            ParseTP(TPTokens);
+            TPACQUIRED = 0;
         }
         
 //        while(BusyUART3());
