@@ -45,11 +45,11 @@ int main(int argc, char** argv) {
 
     while(1)
     {
-        if (U3STAbits.FERR)
-        { printf("Framing Error on UART3\r\n"); }
+        //if (U3STAbits.FERR)
+        //{ printf("Framing Error on UART3\r\n"); }
         
-        if (U3STAbits.OERR)
-        { printf("Overrun error on UART3\r\n"); U3STAbits.OERR = 0;}
+        //if (U3STAbits.OERR)
+        //{ printf("Overrun error on UART3\r\n"); U3STAbits.OERR = 0;}
 
         if(PARSEGPSGGA == 1)
         {
@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
             LatMin = DegMinToDeg(Latitude);
             LonMin = DegMinToDeg(Longitude);
 
-            printf("Location:  %f %c, %f %c\r\n",LatMin, LatHemi, LonMin, LonHemi);
+            //printf("Location:  %f %c, %f %c\r\n",LatMin, LatHemi, LonMin, LonHemi);
 
             //printf("Latitude:  %d° %.5f' %c  Longitude:  %d° %.5f' %c\r\n",LatDeg, LatMin, LatHemi, LonDeg, LonMin, LonHemi);
 

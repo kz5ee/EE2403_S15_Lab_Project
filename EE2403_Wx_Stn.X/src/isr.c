@@ -6,14 +6,18 @@
 #include "../inc/buffers.h"
 #include "../inc/globals.h"
 #include "../inc/gps.h"
+#include "../inc/temp_press.h"
 
 static int adcounter = 1;
-
+static int tpcounter = 0;
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
     //printf("%d \r\n", adcounter);
+
+    if(adcounter == 40)
+    { U2TXREG = 0x13; }
 
     if(adcounter == 50)         //Have we got 5s worth of samples?
     {
@@ -131,6 +135,18 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     tp_received = U2RXREG;
 
     //printf("%c",tp_received);
+
+    if((tp_received != '*') && (tp_received != '&'))
+    {
+        TPString[tpcounter++] = tp_received;
+    }
+
+    if(tp_received == '$')
+    {
+        TPString[tpcounter] = '\0';
+    }
+
+
 
 
     return;
