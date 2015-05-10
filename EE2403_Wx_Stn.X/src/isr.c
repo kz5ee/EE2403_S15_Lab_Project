@@ -5,27 +5,34 @@
 #include <p24Exxxx.h>
 #include "../inc/buffers.h"
 #include "../inc/globals.h"
+#include "../inc/gps.h"
 
 static int adcounter = 1;
+static int gps_index = 0;
 
 //<editor-fold defaultstate="collapsed" desc="Timer Interrupts">
 void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
 {
     _T1IF = 0;
+    //printf("%d \r\n", adcounter);
 
     if(adcounter == 50)         //Have we got 5s worth of samples?
     {
         //U2TXREG = 0x13;         //Send command to get the Temp/Press. values
         //printf("ADC Value:  %d = %f mV  Average:  %.2f   => %.1f MPH\r\n",ADRaw,ADValue,ADAverage,mph);  //Make sure we've got reasonable values
         adcounter = 1;          //Reset the A2D counter
+
+        PullGPSSentence(NMEACSV);
+        //printf("%s\r\n",NMEACSV);
+        PARSEGPSGGA = 1;
+
+        //T1CONbits.TON = 0;  //Turn off the Timer so we can handle GPS stuff
     }
     else
     {
         AD1CON1bits.SAMP = 1;   //We want to get an A2D sample
     }
 
-    return;
-    
     return;
 }
 
@@ -124,7 +131,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     char tp_received;
     tp_received = U2RXREG;
 
-    printf("%c",tp_received);
+    //printf("%c",tp_received);
 
 
     return;
@@ -140,9 +147,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     
     char gps_received;
     gps_received = U3RXREG;
-    printf("%c",gps_received);
+    //printf("%c",gps_received);
 
-    //RngAdd(U3RXREG);
+    RngAdd(gps_received);
 
     return;
 }

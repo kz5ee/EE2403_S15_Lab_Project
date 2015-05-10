@@ -5,16 +5,18 @@
 #include <libpic30.h>
 #include <string.h>
 #include <uart.h>
+#include <math.h>
 
 #include "../inc/globals.h"
 #include "../inc/buffers.h"
 #include "../inc/gps.h"
 
 
+//char NMEACSV[80] = "GPGGA,195219.00,3239.20585,N,09707.18976,W,1,09,1.05,197.0,M,-25.0,M,,";
 char NMEACSV[80] = "\0";
 char *token[15];
 
-float Timestamp, Latitude, Longitude, HDOP, Altitude, GEOID, LatMin, LonMin;
+double Timestamp, Latitude, Longitude, HDOP, Altitude, GEOID, LatMin, LonMin;
 int Quality, NumSats, LatDeg, LonDeg;
 char LatHemi, LonHemi, AUnits, GUnits;
 char strchecksum[3], LatStr[13], LonStr[13];
@@ -50,6 +52,8 @@ UINT8 TokenizeGpsSentence(char *NMEASentence, char **tok)
 	}
 
 	tok[RetVal] = NULL;				// Mark the end.
+
+        //printf("%s\r\n",&token);
 	return RetVal;
 }
 
@@ -71,6 +75,19 @@ void ParseGGA(char **toks)
 	if (sscanf(toks[TokenIndex++],"%f",&GEOID) != 1) GEOID = 0.0;			// Height of geoid
 	if (sscanf(toks[TokenIndex++],"%c",&GUnits) != 1) GUnits = 0.0;			// geoid units (m)
 
+//        printf("Timestamp:  %f\r\n", Timestamp);
+//	printf("Latitude:  %f\r\n", Latitude);
+//	printf("LatHemi:  %c\r\n", LatHemi);
+//	printf("Longitude:  %f\r\n", Longitude);
+//	printf("LonHemi:  %c\r\n", LonHemi);
+//	printf("Quality:  %d\r\n", Quality);
+//	printf("NumSats:  %d\r\n", NumSats);
+//	printf("HDOP:  %f\r\n", HDOP);
+//	printf("Altitude:  %f\r\n", Altitude);
+//	printf("AUnits:  %c\r\n", AUnits);
+//	printf("GEOID:  %f\r\n", GEOID);
+//	printf("GUnits:  %c\r\n", GUnits);
+
 
 	return;	
 }
@@ -78,14 +95,16 @@ void ParseGGA(char **toks)
 void ParseDegMin(double Lat, double Lon)
 {
    int i= 0, j =0, size;
-    char ladeg[3], lodeg[3], lamin[10], lomin[10];
-    
+    char ladeg[3], lodeg[3], lamin[13], lomin[13];
+
     dtoa(Lat, LatStr);
     dtoa(Lon, LonStr);
-    
+
+    //printf("%f %f\r\n", Latitude, Longitude);
+
     size = sizeof(LatStr);
-    
-    for(i=0; i<sizeof(LatStr); i++)
+
+    for(i=0; i<= sizeof(LatStr); i++)
     {
         if(i < 2)
         {
@@ -95,18 +114,24 @@ void ParseDegMin(double Lat, double Lon)
         {
             ladeg[(i + 1)] = '\0';
         }
-        if((i >= 1) && (LatStr[i + 1] != EOF))
+        if((i >= 1) && (LatStr[i + 1] != '\0'))
         {
             lamin[j++] = LatStr[i + 1];
         }
-        if(i == (sizeof(LatStr) -1))
+        if(i == (sizeof(LatStr) ))
         {
             lamin[j] = '\0';
         }
     }
-    
+
+    //printf("Latstr:  %s %s\r\n", ladeg, lamin);
+
     LatDeg = atoi(ladeg);
     LatMin = atof(lamin);
+
+    //printf("Lat:  %d %f\r\n", LatDeg, LatMin);
+
+    j = 0;
 
     for(i=0; i<sizeof(LonStr); i++)
     {
@@ -128,77 +153,81 @@ void ParseDegMin(double Lat, double Lon)
         }
     }
 
+    //printf("Lonstr:  %s %s\r\n", lodeg, lomin);
+
     LonDeg = atoi(lodeg);
     LonMin = atof(lomin);
 
-
+    //printf("Lon:  %d %f\r\n", LonDeg, LonMin);
 
     return;
 }
 
 void PullGPSSentence(char *NMEASentence)
 {
-    int i = 0, j = 0;
-    char Sentence[80], Temp;
+    int i = 0, j = 0, Temp;
+    char Sentence[80];
 
     do
     {
         Temp = GetGPSChar;
 
-        if(Temp == '$')
-        { i++; }
-        
+        if(Temp == EOF)
+        { break; }
+        //U1TXREG = Temp;
+
+        if((char)Temp == '$')
+        { i = 0; }
+
         if(Temp != EOF)
         {
-        
-            if((Temp != '$') && (Temp != '*'))
+
+            if((((char)Temp != '$') && ((char)Temp != '*')) && !GETCHECKSUM)
             {
                 Sentence[i++] = (char)Temp;
             }
-            if(Temp == '*')
+            if((char)Temp == '*')
             {
                 GETCHECKSUM = 1;  //We've reached the checksum part of the sentence
                 Sentence[i] = '\0';
             }
-            if((GETCHECKSUM == 1) && (j < 3))
+            if((GETCHECKSUM == 1) && ((j < 3) && ((char)Temp != '*') ))
             {
                 strchecksum[j++] = (char)Temp;
             }
             if(j == 3)
-            { 
+            {
                 strchecksum[j] = '\0'; //Null terminate the checksum string
                 GETCHECKSUM = 0;
-            }    
+            }
         }
 
-    }while((Temp != '$') || (Temp != EOF));
-    
-    if(strlen(Sentence) > 1)
-    { strcpy(NMEASentence, Sentence); }
+    }while(((char)Temp != '$') || ((char)Temp != EOF));
+
+    //printf("%s\r\n", Sentence);
+
+    sprintf(NMEASentence, "%s", Sentence);
+
+    //strcpy(NMEASentence, Sentence);
+    //printf("%s\r\n", NMEASentence)
 
     return;
 }
 
 void SuppressGPS(void)
 {
-    char KillGSV[31], KillGLL[31], KillGSA[31], KillRMC[31], KillVTG[31] ;
+    char KillGSV[31], KillGLL[31], KillGSA[31], KillRMC[31], KillVTG[31], GGATime[31] ;
     int i = 0;
     /*
      * We only want GGA
      * Suppress GSV, GLL, GSA, RMC, and VTG
      */
-
-
         strcpy(KillGSV,"$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
         strcpy(KillGSA,"$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
         strcpy(KillRMC,"$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
         strcpy(KillGLL,"$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
         strcpy(KillVTG,"$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
-
-//    sprintf(KillGLL, "$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
-//    sprintf(KillGSA, "$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
-//    sprintf(KillRMC, "$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
-//    sprintf(KillVTG, "$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
+        strcpy(GGATime,"$PUBX,40,GGA,0,3,0,0,0,0*59\r\n");
     
     do
     {
@@ -211,7 +240,6 @@ void SuppressGPS(void)
     }while(KillGSV[i] != '\0');
     
     i = 0;
-
     do
     {
         if(KillGLL[i] != '\0')
@@ -223,7 +251,6 @@ void SuppressGPS(void)
     }while(KillGLL[i] != '\0');
     
     i = 0;
-
     do
     {
         if(KillGSA[i] != '\0')
@@ -235,7 +262,6 @@ void SuppressGPS(void)
     }while(KillGSA[i] != '\0');
 
     i = 0;
-
     do
     {
         if(KillRMC[i] != '\0')
@@ -247,7 +273,6 @@ void SuppressGPS(void)
     }while(KillRMC[i] != '\0');
 
     i = 0;
-
     do
     {
         if(KillVTG[i] != '\0')
@@ -256,29 +281,32 @@ void SuppressGPS(void)
             WriteUART3(KillVTG[i++]);
         }
 
-    }while(KillVTG[i] != '\0');
-//
-//    i = 0;
+    }while(GGATime[i] != '\0');
 
-//    do
-//    {
-//        if(KillGLL[i] != '\0')
-//        {
-//            while(BusyUART3());
-//            WriteUART3(KillGLL[i++]);
-//        }
-//
-//    }while(KillGLL[i] != '\0');
+    i = 0;
+    do
+    {
+        if(GGATime[i] != '\0')
+        {
+            while(BusyUART3());
+            WriteUART3(GGATime[i++]);
+        }
 
+    }while(GGATime[i] != '\0');
 
+    return;
+}
 
+double DegMinToDeg(double degmin)
+{
+	double	deg1,deg2;
 
-//    printf("$PUBX,40,GSV,0,0,0,0,0,0*59\r\n");
-//    printf("$PUBX,40,GLL,0,0,0,0,0,0*5C\r\n");
-//    printf("$PUBX,40,GSA,0,0,0,0,0,0*4E\r\n");
-//    printf("$PUBX,40,RMC,0,0,0,0,0,0*47\r\n");
-//    printf("$PUBX,40,VTG,0,0,0,0,0,0*5E\r\n");
+	// modf returns the fraction and puts the integer portion into the second argument.
+	deg1 = modf((degmin / 100),&deg2);	// d1 = minutes/100, d2 = degrees
+	deg1 *= 100;						// d1 = minutes
+	deg1 /= 60;						// d1 = fractional degrees
 
-    
+        //printf("D1 = %lf D2 = %lf\r\n", d1, d2);
+	return (deg2 + deg1);				// Degrees plus fractional degrees.
 }
     

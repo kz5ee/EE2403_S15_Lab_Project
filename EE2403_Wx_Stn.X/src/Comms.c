@@ -36,7 +36,7 @@ void UART1_Config(void){
             ));
     ConfigIntUART1(
                 UART_RX_INT_EN &        //Receive interrupt enabled
-                UART_RX_INT_PR4 &       //Priority RX interrupt 1
+                UART_RX_INT_PR1 &       //Priority RX interrupt 1
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
@@ -50,7 +50,7 @@ void UART1_Config(void){
     PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RP100);
     PPSOutput(OUT_FN_PPS_U1TX, OUT_PIN_PPS_RP101);
 
-    printf("UART1 Configured.\r\n");
+    //printf("UART1 Configured.\r\n");
 }
 
 #ifdef _U2RXIF
@@ -96,7 +96,7 @@ void UART2_Config(void){
     PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RP104);
     PPSOutput(OUT_FN_PPS_U2TX, OUT_PIN_PPS_RP98);
 
-    printf("UART2 Configured.\r\n");
+    //printf("UART2 Configured.\r\n");
 }
 #endif
 
@@ -132,7 +132,7 @@ void UART3_Config(void){
             ));
     ConfigIntUART3(
                 UART_RX_INT_EN &        //Receive interrupt enabled
-                UART_RX_INT_PR2 &       //Priority RX interrupt 1
+                UART_RX_INT_PR1 &       //Priority RX interrupt 1
                 UART_TX_INT_DIS &       //transmit interrupt disabled
                 UART_TX_INT_PR2         //Priority TX interrupt 1
             );
@@ -148,7 +148,7 @@ void UART3_Config(void){
     PPSInput(IN_FN_PPS_U3RX, IN_PIN_PPS_RP82);
     PPSOutput(OUT_FN_PPS_U3TX, OUT_PIN_PPS_RP84);
 
-    printf("UART3 Configured.\r\n");
+    //printf("UART3 Configured.\r\n");
 }
 #endif
 

@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
 
     //U3TXREG = 0x30;
     
-    printf("Weather station version 0.9.6\r\n");
+    printf("Weather station version 0.9.7\r\n");
 
     while(1)
     {
@@ -49,7 +49,26 @@ int main(int argc, char** argv) {
         { printf("Framing Error on UART3\r\n"); }
         
         if (U3STAbits.OERR)
-        { printf("Overrun error on UART3\r\n"); }
+        { printf("Overrun error on UART3\r\n"); U3STAbits.OERR = 0;}
+
+        if(PARSEGPSGGA == 1)
+        {
+            TokenizeGpsSentence(NMEACSV, token);
+            ParseGGA(token);
+            //ParseDegMin(Latitude, Longitude);
+
+            LatMin = DegMinToDeg(Latitude);
+            LonMin = DegMinToDeg(Longitude);
+
+            printf("Location:  %f %c, %f %c\r\n",LatMin, LatHemi, LonMin, LonHemi);
+
+            //printf("Latitude:  %d° %.5f' %c  Longitude:  %d° %.5f' %c\r\n",LatDeg, LatMin, LatHemi, LonDeg, LonMin, LonHemi);
+
+            PARSEGPSGGA = 0;
+
+            //T1CONbits.TON = 1;
+
+        }
         
 //        while(BusyUART3());
 //        WriteUART3(0x4d);

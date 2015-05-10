@@ -24,7 +24,7 @@ UINT16 HIndex = 0,TIndex = 0;//Internal Indexes
 /// @param NewData Data to be inserted into the RngBuffer
 /// @return void
 ////////////////////////////////////////////////////////////////////////////////
-inline void RngAdd(UINT8 NewData)
+void RngAdd(UINT8 NewData)
 {
     
         UartRingBuffer[HIndex] = NewData;//Shove data in

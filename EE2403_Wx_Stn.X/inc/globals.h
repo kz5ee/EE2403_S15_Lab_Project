@@ -44,7 +44,7 @@ extern "C" {
 extern BYTE_VAL Flags;
 
 #define GETCHECKSUM     Flags.bits.b0
-#define DEF2            Flags.bits.b1
+#define PARSEGPSGGA     Flags.bits.b1
 #define DEF3            Flags.bits.b2
 #define DEF4            Flags.bits.b3
 #define DEF5            Flags.bits.b4
@@ -55,7 +55,7 @@ extern BYTE_VAL Flags;
 
 extern int ADRaw;
 extern double ADValue,ADAverage,ADTest;
-extern void dtoa(double, char*);
+extern void dtoa(double, char *);
 
 
 #endif	/* GLOBALS_H */

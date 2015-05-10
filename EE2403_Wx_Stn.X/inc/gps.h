@@ -21,7 +21,7 @@ extern "C" {
     extern char NMEACSV[80];
     extern char *token[15];
 
-    extern float Timestamp, Latitude, Longitude, HDOP, Altitude, GEOID, LatMin, LonMin;
+    extern double Timestamp, Latitude, Longitude, HDOP, Altitude, GEOID, LatMin, LonMin;
     extern int Quality, NumSats, LatDeg, LonDeg;
     extern char LatHemi, LonHemi, AUnits, GUnits;
     extern volatile UINT16 GPSIndex;
@@ -33,6 +33,7 @@ extern "C" {
     extern void ParseDegMin(double, double);
     extern void PullGPSSentence(char *);
     extern void SuppressGPS(void);
+    extern double DegMinToDeg(double);
 
 
 

@@ -22,18 +22,22 @@ void InitGlobals(void)
 
 void dtoa(double dnumber, char *str)
 {
-    int integer,i;
-    char *temp;
+    int integer = 0,i = 0;
+    char temp[5];
     float mantissa;
 
     integer = (int)dnumber; //Get the integer part of the float
     mantissa = dnumber - (double)integer; //Get the decimal part of the float
 
-    temp = itoa(str, integer, 10); //
-    i = sizeof(temp);
+    strcpy(temp, itoa(str, integer, 10)); //
+    i = sizeof(temp) - 1;
+    
+    //printf("%d\r\n", i);
 
     str[i] = '.';
 
     mantissa = mantissa * pow(10, 5);
     itoa(str + i + 1, (int)mantissa, 10);
+
+    return;
 }

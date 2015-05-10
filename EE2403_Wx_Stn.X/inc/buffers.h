@@ -16,7 +16,7 @@ extern "C" {
 #include "../inc/types.h"
 
 #define TPBUFMAXSIZE            64
-#define GPSBUFMAXSIZE           80
+#define GPSBUFMAXSIZE           165
 #define MAXRINGBUFSIZE          32
 
 extern UINT8 UartRingBuffer[GPSBUFMAXSIZE];

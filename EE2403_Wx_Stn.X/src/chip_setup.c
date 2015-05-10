@@ -27,7 +27,7 @@ inline void Timer1_Setup(void)
                     );
 
 
-    printf("Timer 1 setup\r\n");
+    //printf("Timer 1 setup\r\n");
 }
 
 #ifdef _T2IF
