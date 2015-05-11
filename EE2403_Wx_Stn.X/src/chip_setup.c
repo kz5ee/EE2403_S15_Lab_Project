@@ -246,6 +246,8 @@ inline void Timer9_Setup(void)
 
         TRISAbits.TRISA9 = 1;
         TRISAbits.TRISA10 = 1;
+        TRISBbits.TRISB3 = 1;
+        TRISDbits.TRISD12 = 0;
 
     }
 

@@ -67,6 +67,8 @@ int main(int argc, char** argv) {
 
             PARSEGPSGGA = 0;
 
+            GPSRDY = 1;
+
             //T1CONbits.TON = 1;
 
         }
@@ -75,15 +77,29 @@ int main(int argc, char** argv) {
             TokenizeTP(TPString, TPTokens);
             ParseTP(TPTokens);
             TPACQUIRED = 0;
-        }
-        
-//        while(BusyUART3());
-//        WriteUART3(0x4d);
-//        while(BusyUART3());
-//        WriteUART3(0x0d);
-//        while(BusyUART3());
-//        WriteUART3(0x0a);
+            
+            TPRDY = 1;
 
+        }
+        if((GPSRDY == 1) && (TPRDY == 1))
+        { 
+            RDY2SND = 1;
+            GPSRDY = 0;
+            TPRDY = 0;
+        }
+
+        if(RDY2SND == 1)
+        {
+            printf("Location:  %f %c, %f %c  Wind Speed:  %f",LatMin, LatHemi, LonMin, LonHemi, (ADValue / 22));
+            printf("Pressure:  %.1f           Temperature:  %.1f",Pressure, Temperature);
+
+            RDY2SND = 0;
+        }
+
+        if(PORTBbits.RB3 == 1)
+        {
+            LATDbits.LATD12 ^= 1;
+        }
 
     }
 
