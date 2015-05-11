@@ -90,8 +90,8 @@ int main(int argc, char** argv) {
 
         if(RDY2SND == 1)
         {
-            printf("Location:  %f %c, %f %c  Wind Speed:  %f",LatMin, LatHemi, LonMin, LonHemi, (ADValue / 22));
-            printf("Pressure:  %.1f           Temperature:  %.1f",Pressure, Temperature);
+            printf("Location:  %f %c, %f %c  Wind Speed:  %f MPH",LatMin, LatHemi, LonMin, LonHemi, (ADValue / 22));
+            printf("Pressure:  %.1f kpa           Temperature:  %.1f C",Pressure, Temperature);
 
             RDY2SND = 0;
         }
