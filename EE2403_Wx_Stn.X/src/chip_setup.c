@@ -246,6 +246,9 @@ inline void Timer9_Setup(void)
 
         TRISAbits.TRISA9 = 1;
         TRISAbits.TRISA10 = 1;
+        TRISBbits.TRISB1 = 1;
+        //LATBbits.LATB3 = 0;
+        TRISDbits.TRISD12 = 0;
 
     }
 
@@ -254,7 +257,7 @@ inline void Timer9_Setup(void)
         //Set up RX for UARTs
         PPSInput(IN_FN_PPS_U1RX, IN_PIN_PPS_RPI49);
         PPSInput(IN_FN_PPS_U2RX, IN_PIN_PPS_RPI50);
-        //PPSInput(IN_FN_PPS_U3RX, IN_PIN_PPS_RPI51);
+        //PPSInput(IN _FN_PPS_U3RX, IN_PIN_PPS_RPI51);
         //PPSInput(IN_FN_PPS_U4RX, IN_PIN_PPS_RPI52);
 
         //Set up TX for UARTs

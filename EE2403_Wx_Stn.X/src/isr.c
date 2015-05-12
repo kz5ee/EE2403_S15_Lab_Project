@@ -28,8 +28,6 @@ void __attribute__((interrupt,auto_psv)) _ISR _T1Interrupt(void)
         PullGPSSentence(NMEACSV);
         //printf("%s\r\n",NMEACSV);
         PARSEGPSGGA = 1;
-
-        
     }
     else
     {
@@ -121,8 +119,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 
     if(db_received == 0x60)
     {
-        U3TXREG = 0x14;
-        printf("DC4 Command Sent\r\n");
+        //U3TXREG = 0x14;
+        //printf("DC4 Command Sent\r\n");
+        LATDbits.LATD12 ^= 1;
     }
 
     return;
@@ -194,7 +193,7 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
     ADRaw = ADC1BUF0;
     ADValue = (((ADRaw / 4096.0)*(2.042))* 1000) - 400;
 
-    ADAverage = (ADAverage + ADValue) / (double)adcounter;
+    //ADAverage = (ADAverage + ADValue) / (double)adcounter;
     adcounter++;
 
 
