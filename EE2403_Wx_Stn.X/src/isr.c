@@ -119,8 +119,9 @@ void __attribute__((interrupt,auto_psv)) _ISR _T9Interrupt(void)
 
     if(db_received == 0x60)
     {
-        U3TXREG = 0x14;
-        printf("DC4 Command Sent\r\n");
+        //U3TXREG = 0x14;
+        //printf("DC4 Command Sent\r\n");
+        LATDbits.LATD12 ^= 1;
     }
 
     return;

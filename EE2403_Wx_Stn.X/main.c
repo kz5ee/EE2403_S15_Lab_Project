@@ -69,6 +69,8 @@ int main(int argc, char** argv) {
 
             GPSRDY = 1;
 
+            //printf("%d\r\n", PORTBbits.RB1);
+
             //T1CONbits.TON = 1;
 
         }
@@ -80,6 +82,8 @@ int main(int argc, char** argv) {
             
             TPRDY = 1;
 
+            
+
         }
         if((GPSRDY == 1) && (TPRDY == 1))
         { 
@@ -90,16 +94,20 @@ int main(int argc, char** argv) {
 
         if(RDY2SND == 1)
         {
-            printf("Location:  %f %c, %f %c  Wind Speed:  %f MPH",LatMin, LatHemi, LonMin, LonHemi, (ADValue / 22));
-            printf("Pressure:  %.1f kpa           Temperature:  %.1f C",Pressure, Temperature);
+            printf("Location:  %f %c, %f %c  Wind Speed:  %f MPH\r\n",LatMin, LatHemi, LonMin, LonHemi, (ADValue / 22));
+            printf("Pressure:  %.1f kpa           Temperature:  %.1f C\r\n",Pressure, Temperature);
+            
 
             RDY2SND = 0;
         }
 
-        if(PORTBbits.RB3 == 1)
-        {
-            LATDbits.LATD12 ^= 1;
-        }
+        
+
+//        if(PORTBbits.RB1 == 1)
+//        {
+//            //printf("Port is High\r\n");
+//            LATDbits.LATD12 ^= 1;
+//        }
 
     }
 
